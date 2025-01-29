@@ -1,19 +1,30 @@
 "use client";
 import React from "react";
-import Navbar from "./components/Navbar";
+
 import { CarouselDemo } from "./components/CarouselFull";
+import { CarouselSpacing } from "./components/CarouselSpacing";
+import { CalendarDemo } from "./components/Calendar";
+
 
 const page = () => {
   return (
-    <div className=" w-full ">
-    <Navbar/>
-    <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+    <div className=" w-[90%] mx-auto ">
+      <h2 className=" py-8 mb-4 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
         The King's Plan
       </h2>
       <div className="w-full h-screen ">
-    <CarouselDemo/>
-    </div>
+        <CarouselDemo />
 
+        <h2 className=" py-10  scroll-m-20  text-4xl text-center font-bold tracking-tight transition-colors first:mt-0">
+        Coach Profile
+      </h2>
+        <CarouselSpacing/>
+
+        <h2 className=" py-10  scroll-m-20  text-4xl text-center font-bold tracking-tight transition-colors first:mt-0">
+        Events Calendar
+      </h2>
+      <CalendarDemo/>
+      </div>
     </div>
   );
 };
