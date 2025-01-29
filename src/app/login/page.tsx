@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -22,10 +23,45 @@ export default function Login() {
       setErrorMessage("");
       const username = email.split("@")[0];
       localStorage.setItem("username", username);
-      alert("Login successful!");
-      window.location.href = "/dashboard";
+      // alert("Login successful!");
+      setTimeout(()=>{
+        window.location.href = "/dashboard";
+      },1000)
+      toast.success("Login successful!", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+        closeButton: false,
+        style: {
+          width: '300px',  // Set the width
+          fontSize: '18px', // Set the font size
+          padding: '0 12px',  // Adjust padding
+          borderRadius: '6px',  // Optional: customize border radius
+          height:"20px",
+          boxShadow:"0px 0px 10px 3px #9b9b9b",
+        },
+      });
     } catch (error: any) {
-      setErrorMessage(error.response?.data?.error || "Login failed.");
+      // setErrorMessage(error.response?.data?.error || "Login failed.");
+      toast.error("Login failed.",{
+        position: "bottom-right",
+        autoClose: 1000,
+        theme: "colored",
+        hideProgressBar: true,
+        style: {
+          width: '300px',  // Set the width
+          fontSize: '18px', // Set the font size
+          padding: '0 12px',  // Adjust padding
+          borderRadius: '6px',  // Optional: customize border radius
+          height:"20px",
+          boxShadow:"0px 0px 10px 3px #9b9b9b",
+        }
+      });
     }
   };
 

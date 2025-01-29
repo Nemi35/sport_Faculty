@@ -16,7 +16,7 @@ interface CoachListProps {
 
 export default function CoachList({ coaches, onEdit, onDelete }: CoachListProps) {
   return (
-    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="mt-4 flex flex-nowrap overflow-auto scrollbar-hide">
       {coaches.map((coach) => (
         <div key={coach.id} className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center">
           <img src={coach.image} className="w-32 h-32 object-cover rounded-full mb-3" />
