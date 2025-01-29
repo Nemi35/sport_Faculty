@@ -20,6 +20,8 @@ export default function Login() {
       const response = await axios.post("/api/auth", { email, password });
       setToken(response.data.token); // Store token (e.g., in localStorage or cookies)
       setErrorMessage("");
+      const username = email.split("@")[0];
+      localStorage.setItem("username", username);
       alert("Login successful!");
       window.location.href = "/dashboard";
     } catch (error: any) {
