@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ export default function Register() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate passwords match
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match.");
@@ -26,12 +27,49 @@ export default function Register() {
     }
 
     try {
-      const response = await axios.post("/api/auth/register", { email, password });
-      setErrorMessage(""); // Reset error message
-      alert("Registration successful!");
-      router.push("/login"); // Redirect to login page after successful registration
+      const response = await axios.post("/api/auth/register", {
+        email,
+        password,
+      });
+      setErrorMessage(""); 
+      
+      setTimeout(() => {
+        router.push("/login");
+      }, 1000);
+      toast.success("Login successful!", {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+        closeButton: false,
+        style: {
+          width: "300px", 
+          fontSize: "18px", 
+          padding: "0 12px", 
+          borderRadius: "6px", 
+          height: "20px",
+          boxShadow: "0px 0px 10px 3px #9b9b9b",
+        },
+      });
     } catch (error: any) {
-      setErrorMessage(error.response?.data?.error || "Registration failed.");
+      toast.error("Login failed.", {
+        position: "bottom-right",
+        theme: "colored",
+        autoClose: 1000,
+        hideProgressBar: true,
+        style: {
+          width: "300px",
+          fontSize: "18px",
+          padding: "0 12px", 
+          borderRadius: "6px", 
+          height: "20px",
+          boxShadow: "0px 0px 10px 3px #9b9b9b",
+        },
+      });
     }
   };
 
@@ -48,7 +86,10 @@ export default function Register() {
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email Address
             </label>
             <input
@@ -62,7 +103,10 @@ export default function Register() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -76,7 +120,10 @@ export default function Register() {
             />
           </div>
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
               Confirm Password
             </label>
             <input

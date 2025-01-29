@@ -16,7 +16,7 @@ const AdminCalendar = () => {
     const fetchEvents = async () => {
       const response = await fetch("/api/event");
       const data = await response.json();
-      const mappedEvents = data.events.map((event) => ({
+      const mappedEvents = data.events.map((event: any) => ({
         ...event,
         id: event._id,
       }));
@@ -93,7 +93,7 @@ const AdminCalendar = () => {
       // Refresh events
       const updatedEventsResponse = await fetch("/api/event");
       const updatedData = await updatedEventsResponse.json();
-      const mappedUpdatedEvents = updatedData.events.map((event) => ({
+      const mappedUpdatedEvents = updatedData.events.map((event: any) => ({
         ...event,
         id: event._id,
       }));
@@ -130,7 +130,7 @@ const AdminCalendar = () => {
       // Refresh events after successful update
       const updatedEventsResponse = await fetch("/api/event");
       const updatedData = await updatedEventsResponse.json();
-      const mappedUpdatedEvents = updatedData.events.map((event) => ({
+      const mappedUpdatedEvents = updatedData.events.map((event: any) => ({
         ...event,
         id: event._id,
       }));
@@ -139,7 +139,7 @@ const AdminCalendar = () => {
   };
 
   return (
-    <div>
+    <div className="w-full h-screen box-border px-10">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -147,12 +147,12 @@ const AdminCalendar = () => {
         editable={true}
         dateClick={handleAddEvent}
         eventClick={handleEventClick}
-        eventDrop={handleEventDrop} // Enable drag-and-drop
+        eventDrop={handleEventDrop}
       />
 
       {/* Modal for adding/updating event */}
       {showModal && (
-        <div className="modal">
+        <div className="modal ">
           <div className="modal-content">
             <h2>{selectedEventId ? "Edit Event" : "Add Event"}</h2>
             <input
