@@ -23,14 +23,11 @@ export default function Navbar() {
         
    
         <nav className="hidden md:flex justify-center w-full space-x-6">
-          <a href="#home" className="hover:text-gray-300">
-            Home
+          <a href="#Profile" className="hover:text-gray-300">
+          Coach Profile
           </a>
-          <a href="#about" className="hover:text-gray-300">
-            About
-          </a>
-          <a href="#services" className="hover:text-gray-300">
-            Services
+          <a href="#calendar" className="hover:text-gray-300">
+          Events calendar
           </a>
           <a href="#contact" className="hover:text-gray-300">
             Contact
@@ -53,7 +50,7 @@ export default function Navbar() {
         <nav className="md:hidden bg-gray-800">
           <ul className="flex flex-col items-center space-y-4 p-4">
             <li>
-              <a href="#home" className="hover:text-gray-300">
+              <a href="" className="hover:text-gray-300">
                 Home
               </a>
             </li>
