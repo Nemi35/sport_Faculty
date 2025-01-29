@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    experimental: {
+      appDir: true,  // Enable the app directory feature for Next.js 13+
+    },
+  };
+  
+  export default nextConfig;
+  
