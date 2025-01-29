@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: font;
+    src: url(./assets/MonaSansExpanded-Regular.woff2);
+}
+body{
+    font-family: font;
+}
+p{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

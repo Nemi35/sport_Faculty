@@ -1,0 +1,20 @@
+import React from 'react'
+import MyCalendar from './EventCalendar'
+
+const Calender = () => {
+  return (
+    <div className='bg-white'>
+        <h2 className="pb-10  mt-10 text-4xl text-center font-bold tracking-tight">
+        Meet our expert coaches
+      </h2>
+            <div className="w-full h-[120vh] relative p-5 ">
+     
+     
+     <MyCalendar/>
+      <div className="overlay w-full h-full absolute -top-[10vh] bg-[#fff6] -z-[2] rounded-b-[5vw] "></div>
+    </div>
+    </div>
+  )
+}
+
+export default Calender

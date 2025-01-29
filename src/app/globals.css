@@ -6,9 +6,15 @@
 @import "~slick-carousel/slick/slick-theme.css";
 @import "~react-big-calendar/lib/css/react-big-calendar.css";
 
+@font-face {
+  font-family: MonaSans;
+  src: url("../assets/MonaSansExpanded-Regular.woff2");
+}
+
 /* Custom Styles */
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: MonaSans;
+
 }
 
 @layer utilities {
@@ -16,6 +22,8 @@ body {
     text-wrap: balance;
   }
 }
+
+
 
 @layer base {
   :root {

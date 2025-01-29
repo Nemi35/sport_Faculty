@@ -2,18 +2,16 @@ import { connectToDatabase } from "@/lib/db"; // Ensure you're connecting to the
 import EventModel from "@/models/Event"; // Import your Event model
 import { NextResponse } from "next/server"; // Correct response helper for Next.js 13+ App Directory
 
-
-
 // PUT handler for updating an event
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   await connectToDatabase(); // Ensure MongoDB connection
 
   try {
-    const { title, date } = await req.json();
+    const { title, date, description } = await req.json(); // Include description in the request body
 
-    if (!title || !date) {
+    if (!title || !date || !description) { // Validate that title, date, and description are provided
       return NextResponse.json(
-        { error: "Title and date are required" },
+        { error: "Title, date, and description are required" },
         { status: 400 }
       );
     }
@@ -28,9 +26,9 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 
     // Find the event by ID and update it
     const updatedEvent = await EventModel.findByIdAndUpdate(
-      params.id,  // Use the id from the URL
-      { title, date: eventDate },
-      { new: true }  // The 'new' option ensures the updated event is returned
+      params.id, // Use the id from the URL
+      { title, date: eventDate, description }, // Update the event with title, date, and description
+      { new: true } // The 'new' option ensures the updated event is returned
     );
 
     if (!updatedEvent) {
