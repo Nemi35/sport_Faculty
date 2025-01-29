@@ -2,17 +2,16 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-    const token = req.cookies.get("token")?.value; // Get the auth token from cookies
+    const token = req.cookies.get("token")?.value;
 
-    // If accessing a protected route and no token is found, redirect to login
-    if (req.nextUrl.pathname.startsWith("/dashboard") && !token) {
-        return NextResponse.redirect(new URL("/login", req.url)); // Redirect to login
+    if (!token) {
+        return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    return NextResponse.next(); // Allow request if authenticated
+    return NextResponse.next();
 }
 
-// Apply middleware to all routes under "/dashboard/*"
+// Apply middleware to protected routes
 export const config = {
-    matcher: ["/dashboard/:path*"], // Protects "/dashboard" and all its subroutes
+    matcher: ["/dashboard/:path*"], // Protect dashboard and its subroutes
 };
