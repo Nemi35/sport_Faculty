@@ -11,6 +11,10 @@ import {
 
 export function CarouselSpacing() {
   return (
+    <div className="">
+     <h2 className=" py-10  scroll-m-20  text-4xl text-center font-bold tracking-tight transition-colors first:mt-0">
+            Coach Profile
+          </h2>
     <Carousel className="w-full "> 
       <CarouselContent className="gap-4"> 
         {Array.from({ length: 5 }).map((_, index) => (
@@ -28,5 +32,6 @@ export function CarouselSpacing() {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
+    </div>
   );
 }
