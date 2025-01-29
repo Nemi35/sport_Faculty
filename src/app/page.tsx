@@ -3,7 +3,8 @@ import React from "react";
 
 import { CarouselDemo } from "./components/CarouselFull";
 import { CarouselSpacing } from "./components/CarouselSpacing";
-import { CalendarDemo } from "./components/Calendar";
+import MyCalendar from "@/app/components/EventCalendar"
+
 
 
 const page = () => {
@@ -23,7 +24,10 @@ const page = () => {
         <h2 className=" py-10  scroll-m-20  text-4xl text-center font-bold tracking-tight transition-colors first:mt-0">
         Events Calendar
       </h2>
-      <CalendarDemo/>
+      <main className="flex justify-center items-center min-h-screen">
+        
+      <MyCalendar/>
+    </main>
       </div>
     </div>
   );

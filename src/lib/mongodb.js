@@ -22,7 +22,6 @@ export async function connectToDatabase() {
 
   const db = client.db('sample_mflix');
 
-  // Cache the client and db for future use
   cachedClient = client;
   cachedDb = db;
 
