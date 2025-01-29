@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation"; // Use useRouter for navigation in 
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ui/ClickOutside";
+import userIcon from '@/assets/user.png'
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -33,24 +34,24 @@ const DropdownUser = () => {
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link
         onClick={() => setDropdownOpen(!dropdownOpen)}
-        className="flex items-center gap-4"
+        className="flex items-center gap-3"
         href="#"
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
             {username}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs font-semibold">Admin</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
           <Image
             width={112}
             height={112}
-            src={"/images/user/user-01.png"}
+            src={userIcon}
             style={{
-              width: "auto",
-              height: "auto",
+              width: "50",
+              height: "50",
             }}
             alt="User"
           />

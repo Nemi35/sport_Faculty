@@ -6,7 +6,11 @@ import CoachList from "./CoachList";
 export default function CoachAdmin() {
   const [coaches, setCoaches] = useState([
     { id: "1", name: "John Doe", title: "Head Coach", image: "/default.jpg" },
-    { id: "2", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" }
+    { id: "2", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" },
+    { id: "3", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" },
+    { id: "4", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" },
+    { id: "5", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" },
+    { id: "6", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" }
   ]);
   const [editingCoach, setEditingCoach] = useState<{ id?: string; name: string; title: string; image: string } | null>(null);
 
@@ -30,7 +34,7 @@ export default function CoachAdmin() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 ">
       <h2 className="text-2xl font-bold mb-4">Manage Coaches</h2>
 
       {/* Form */}
