@@ -1,49 +1,33 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { connectToDatabase } from "../../../lib/db";
 import User from "../../../models/User";
 
 export async function POST(req: Request) {
     const { email, password } = await req.json();
 
-    // Validate inputs
     if (!email || !password) {
-        return NextResponse.json(
-            { error: "Please provide both email and password." },
-            { status: 400 }
-        );
+        return NextResponse.json({ error: "Please provide email and password." }, { status: 400 });
     }
 
     try {
-        console.log("Connecting to the database...");
-        // Connect to database
         await connectToDatabase();
+        const user = await User.findOne({ email });
 
-        console.log("Checking if user exists...");
-        // Check if user exists
-        const existingUser = await User.findOne({ email });
-        if (!existingUser) {
-            return NextResponse.json(
-                { error: "Invalid credentials." },
-                { status: 400 }
-            );
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return NextResponse.json({ error: "Invalid credentials." }, { status: 400 });
         }
 
-        console.log("Verifying password...");
-        // Verify password
-        const isPasswordValid = await bcrypt.compare(password, existingUser.password);
-        if (!isPasswordValid) {
-            return NextResponse.json(
-                { error: "Invalid credentials." },
-                { status: 400 }
-            );
-        }
+        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET!, {
+            expiresIn: "7d",
+        });
 
-        console.log("Login successful!");
-        // You can generate a token or session here if needed
-        return NextResponse.json({ message: "Login successful!" }, { status: 200 });
+        const response = NextResponse.json({ message: "Login successful!" }, { status: 200 });
+        response.cookies.set("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
+
+        return response;
     } catch (error) {
-        console.error("Error during login:", error);
         return NextResponse.json({ error: "Server error." }, { status: 500 });
     }
 }
