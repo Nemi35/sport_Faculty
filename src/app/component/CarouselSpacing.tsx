@@ -41,6 +41,10 @@ const carouselData = [
 
 export function CarouselSpacing() {
   return (
+    <>
+   <h2 className=" py-10  scroll-m-20  text-4xl text-center font-bold tracking-tight transition-colors first:mt-0">
+   Coach profile
+        </h2>
     <Carousel className="w-full">
       <CarouselContent className="gap-4">
         {carouselData.map((item, index) => (
@@ -60,7 +64,6 @@ export function CarouselSpacing() {
                   />
                 </div>
 
-                {/* Text at the bottom */}
                 <div className="absolute bottom-0 w-full bg-white/60 text-black text-center p-4">
                   <h3 className="text-lg font-semibold">{item.name}</h3>
                   <p className="text-sm">{item.description}</p>
@@ -73,5 +76,6 @@ export function CarouselSpacing() {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
+    </>
   );
 }

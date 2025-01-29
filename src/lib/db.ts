@@ -1,37 +1,24 @@
-import { MongoClient, Db } from 'mongodb';
+// lib/db.ts
+import mongoose from 'mongoose';
 
-let cachedClient: MongoClient | null = null;
-let cachedDb: Db | null = null;
+let isConnected = false;
 
-export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
-  // If cached connection exists, return it
-  if (cachedClient && cachedDb) {
-    return { client: cachedClient, db: cachedDb };
+export async function connectToDatabase() {
+  if (isConnected) {
+    return; // If already connected, do nothing
   }
 
-  // Ensure MONGODB_URI is defined
-  if (!process.env.MONGO_URI) {
-    throw new Error('Please define the MONGO_URI environment variable inside .env.local');
-  }
+  const dbUri = process.env.MONGO_URI || ''; // Ensure to set your MongoDB URI in environment variables
 
   try {
-    // Establish a new MongoDB connection
-    const client = await MongoClient.connect(process.env.MONGO_URI, {
+    await mongoose.connect(dbUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-
-    const db = client.db('sample_mflix');
-
-    // Cache the client and db for reuse
-    cachedClient = client;
-    cachedDb = db;
-
-    console.log("MongoDB connected successfully");
-
-    return { client, db };
+    isConnected = true;
+    console.log('MongoDB connected successfully');
   } catch (error) {
-    console.error("MongoDB connection error:", error);
-    throw new Error('Failed to connect to MongoDB');
+    console.error('Error connecting to MongoDB:', error);
+    throw new Error('Database connection failed');
   }
 }
