@@ -16,7 +16,7 @@ const AdminCalendar = () => {
     const fetchEvents = async () => {
       const response = await fetch("/api/event");
       const data = await response.json();
-      const mappedEvents = data.events.map(event => ({
+      const mappedEvents = data.events.map((event) => ({
         ...event,
         id: event._id,
       }));
@@ -45,10 +45,19 @@ const AdminCalendar = () => {
       return;
     }
 
+    // Validate Date
+    const selectedDateObj = new Date(selectedDate);
+    if (isNaN(selectedDateObj.getTime())) {
+      alert("Please select a valid date.");
+      return;
+    }
+
     const eventData = {
       title: eventTitle,
-      date: new Date(selectedDate).toISOString(),
+      date: selectedDateObj.toISOString(),
     };
+
+    let success = false;
 
     if (selectedEventId) {
       // Update existing event with PUT request
@@ -60,9 +69,7 @@ const AdminCalendar = () => {
         },
       });
 
-      if (!response.ok) {
-        console.error("Failed to update the event");
-      }
+      if (response.ok) success = true;
     } else {
       // Add new event (POST request)
       const response = await fetch("/api/event", {
@@ -73,25 +80,27 @@ const AdminCalendar = () => {
         },
       });
 
-      if (!response.ok) {
-        console.error("Failed to add the event");
-      }
+      if (response.ok) success = true;
     }
 
-    // Close modal and refresh events
-    setShowModal(false);
-    setEventTitle("");
-    setSelectedDate(null);
-    setSelectedEventId(null);
+    if (success) {
+      // Close modal first, then refresh events
+      setShowModal(false);
+      setEventTitle("");
+      setSelectedDate(null);
+      setSelectedEventId(null);
 
-    // Refresh events after save
-    const updatedEventsResponse = await fetch("/api/event");
-    const updatedData = await updatedEventsResponse.json();
-    const mappedUpdatedEvents = updatedData.events.map(event => ({
-      ...event,
-      id: event._id,
-    }));
-    setEvents(mappedUpdatedEvents);
+      // Refresh events
+      const updatedEventsResponse = await fetch("/api/event");
+      const updatedData = await updatedEventsResponse.json();
+      const mappedUpdatedEvents = updatedData.events.map((event) => ({
+        ...event,
+        id: event._id,
+      }));
+      setEvents(mappedUpdatedEvents);
+    } else {
+      alert("Failed to save the event");
+    }
   };
 
   const handleModalClose = () => {
@@ -99,6 +108,34 @@ const AdminCalendar = () => {
     setEventTitle("");
     setSelectedDate(null);
     setSelectedEventId(null);
+  };
+
+  const handleEventDrop = async (info: any) => {
+    const updatedEventData = {
+      title: info.event.title,
+      date: info.event.start.toISOString(),
+    };
+
+    const response = await fetch(`/api/event/${info.event.id}`, {
+      method: "PUT",
+      body: JSON.stringify(updatedEventData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      alert("Failed to update the event date");
+    } else {
+      // Refresh events after successful update
+      const updatedEventsResponse = await fetch("/api/event");
+      const updatedData = await updatedEventsResponse.json();
+      const mappedUpdatedEvents = updatedData.events.map((event) => ({
+        ...event,
+        id: event._id,
+      }));
+      setEvents(mappedUpdatedEvents);
+    }
   };
 
   return (
@@ -110,6 +147,7 @@ const AdminCalendar = () => {
         editable={true}
         dateClick={handleAddEvent}
         eventClick={handleEventClick}
+        eventDrop={handleEventDrop} // Enable drag-and-drop
       />
 
       {/* Modal for adding/updating event */}
