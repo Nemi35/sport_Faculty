@@ -1,11 +1,12 @@
-@import "~slick-carousel/slick/slick.css";
-@import "~slick-carousel/slick/slick-theme.css";
-/* styles/globals.css */
-@import "~react-big-calendar/lib/css/react-big-calendar.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+@import "~react-big-calendar/lib/css/react-big-calendar.css";
+
+/* Custom Styles */
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -44,6 +45,7 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -76,6 +78,7 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

@@ -1,15 +1,19 @@
 "use client";
 import React from "react";
 
-import { CarouselDemo } from "./components/CarouselFull";
-import { CarouselSpacing } from "./components/CarouselSpacing";
-import MyCalendar from "@/app/components/EventCalendar"
-
+import { CarouselDemo } from "@/app/component/CarouselFull";
+import { CarouselSpacing } from "@/app/component/CarouselSpacing";
+import MyCalendar from "@/app/component/EventCalendar"
+import Navbar from "./component/Navbar";
 
 
 const page = () => {
   return (
-    <div className=" w-[90%] mx-auto ">
+    <>
+    <Navbar/>
+   
+    <div className=" w-[90%] mx-auto mt-8 ">
+
       <h2 className=" py-8 mb-4 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
         The King's Plan
       </h2>
@@ -28,8 +32,11 @@ const page = () => {
         
       <MyCalendar/>
     </main>
+
+    <h1 className="bg-red-500">jfl;sdkjflsdkjflksdjflksdjflk</h1>
       </div>
     </div>
+    </>
   );
 };
 

@@ -9,7 +9,6 @@ import interactionPlugin from "@fullcalendar/interaction"; // Enables event inte
 
 // Corrected imports for styles (remove vdom import)
 
-
 export default function MyCalendar() {
   // State to manage the list of events
   const [events, setEvents] = useState([
@@ -17,28 +16,24 @@ export default function MyCalendar() {
     { title: "Workshop", date: "2025-02-05" },
   ]);
 
-
-  const handleDateClick = (info) => {
-    const title = prompt("Enter Event Title:");
-    if (title) {
-      setEvents([...events, { title, date: info.dateStr }]);
-    }
-  };
-
- 
   const handleEventClick = (info) => {
-    alert(`Event: ${info.event.title} \nStart: ${info.event.start.toLocaleString()} \nEnd: ${info.event.end?.toLocaleString()}`);
+    alert(
+      `Event: ${
+        info.event.title
+      } \nStart: ${info.event.start.toLocaleString()} \nEnd: ${info.event.end?.toLocaleString()}`
+    );
   };
 
   return (
     <div className="p-4">
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} 
-        initialView="dayGridMonth" 
-        events={events} 
-        eventClick={handleEventClick} 
-        dateClick={handleDateClick} 
-        height="auto" 
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        events={events}
+        eventClick={handleEventClick}
+        editable={false}
+        droppable={false}
+        height="auto"
       />
     </div>
   );
