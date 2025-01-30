@@ -1,19 +1,14 @@
+import { NextResponse } from "next/server";
 import AWS from "aws-sdk";
 
-AWS.config.update({
+// Initialize AWS SDK once (Prevents Re-instantiating on every request)
+const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: process.env.AWS_REGION,
 });
-const s3 = new AWS.S3();
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
-
-export async function GET(req: Request) {
+export async function GET() {
     const params = {
         Bucket: process.env.AWS_S3_BUCKET_NAME,
         Prefix: "uploads/",
@@ -25,8 +20,17 @@ export async function GET(req: Request) {
             (item) =>
                 `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${item.Key}`
         );
-        return new Response(JSON.stringify(imageUrls), { status: 200 });
+
+        return NextResponse.json(imageUrls, {
+            headers: {
+                "Cache-Control": "s-maxage=600, stale-while-revalidate",
+            },
+        });
     } catch (err) {
-        return new Response("Error fetching images from S3", { status: 500 });
+        console.error("S3 Fetch Error:", err);
+        return NextResponse.json(
+            { error: "Error fetching images from S3" },
+            { status: 500 }
+        );
     }
 }
