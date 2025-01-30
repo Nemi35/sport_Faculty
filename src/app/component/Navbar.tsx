@@ -12,33 +12,29 @@ export default function Navbar() {
   };
 
   return (
-    <div className=" bg-[rgba(255,255,255,0.36)] rounded-b-[5vw] w-full h-32 p-10 flex items-center justify-between fixed backdrop-blur-md z-50 top-0   ">
+    <div className=" bg-[rgba(255,255,255,0.36)] rounded-b-[5vw] w-full h-20  md:h-32 md:p-10 flex items-center justify-between fixed backdrop-blur-md z-50 top-0   ">
 
     <header className="w-full">
-      <div className="container mx-auto flex items-center justify-between p-4">
+      <div className="container mx-auto flex items-center justify-between md:p-4">
         <nav className="hidden md:flex justify-between gap-10 w-full space-x-8">
           <div className=""></div>
 
 
-          <div className="flex gap-4 justify-center items-center">
+          <div className="flex gap-6 justify-center items-center">
             <a
-              href="#Profile"
-              className="font-medium text-base hhover:text-gray-300"
+              href="#coach"
+              className="font-medium text-lg hhover:text-gray-300"
+              id="coach"
             >
               Coach Profile
             </a>
             <a
               href="#calendar"
-              className="font-medium text-base hover:text-gray-300"
+              className="font-medium text-lg hover:text-gray-300"
             >
               Events calendar
             </a>
-            <a
-              href="#contact"
-              className="font-medium text-base hover:text-gray-300"
-            >
-              Contact
-            </a>
+          
           </div>
 
           
@@ -66,7 +62,7 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {isMenuOpen && (
-        <nav className="md:hidden bg-gray-800">
+        <nav className="md:hidden  absolute w-full top-16 bg-[rgba(255,255,255,0.36)] backdrop-blur-xl  ">
           <ul className="flex flex-col items-center space-y-4 p-4">
             <li>
               <a href="" className="hover:text-gray-300">

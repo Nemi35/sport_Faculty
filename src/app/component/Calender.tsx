@@ -5,9 +5,9 @@ const Calender = () => {
   return (
     <div className='bg-white'>
         <h2 className="pb-10  mt-10 text-4xl text-center font-bold tracking-tight">
-        Meet our expert coaches
+        Upcoming Events
       </h2>
-            <div className="w-full h-[120vh] relative p-5 ">
+            <div className="w-full h-full relative p-5 ">
      
      
      <MyCalendar/>
