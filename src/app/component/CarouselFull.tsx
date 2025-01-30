@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -8,40 +8,57 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
-import Img from "@/assets/img1.jpg";
 import Image from "next/image";
 
-const img = [
-  { img: Img },
-  { img: Img },
-  { img: Img },
-  { img: Img },
-  { img: Img },
-  { img: Img },
-];
-
 export function CarouselDemo() {
+  const [images, setImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await fetch("/api/images"); // Replace with your actual API endpoint
+        const data = await response.json();
+        setImages(data); // Assuming the API returns an array of image URLs
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
   return (
     <div className="w-full mx-auto mt-10 pt-28 h-[450px]">
       <Carousel className="w-full h-full  p-8">
         <CarouselContent className="h-full">
-          {img.map((item, index) => (
-            <CarouselItem key={index} className="h-full">
-              <div className="p-1 w-full h-full flex justify-center   items-center">
-                <Card className="h-[450px] w-full overflow-hidden  border-none shadow-none rounded-[5vw]">
-                  <CardContent className="flex items-center w-full rounded-[5vw] justify-center h-full p-6">
-                    <Image
-                      src={item.img}
-                      className="img-fluid  rounded-[5vw]"
-                      alt="Image description"
-                      style={{ maxWidth: "110%" }}
-                    />
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
+          {loading ? (
+            // Placeholder while images are being fetched
+            <div className="w-full h-full flex justify-center items-center">
+              <div className="text-center text-gray-500">Loading...</div>
+            </div>
+          ) : (
+            images.map((imgUrl, index) => (
+              <CarouselItem key={index} className="h-full">
+                <div className="p-1 w-full h-full flex justify-center items-center">
+                  <Card className="h-[450px] w-full overflow-hidden  border-none shadow-none rounded-[5vw]">
+                    <CardContent className="flex items-center w-full rounded-[5vw] justify-center h-full p-6">
+                      <Image
+                        src={imgUrl}
+                        alt={`Image ${index + 1}`}
+                        layout="responsive"
+                        width={100} // Set width percentage
+                        height={60} // Set height percentage
+                        className="img-fluid rounded-[5vw]"
+                      />
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))
+          )}
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
