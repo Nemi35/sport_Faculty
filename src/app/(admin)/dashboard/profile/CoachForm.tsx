@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import upload from "@/assets/upload.png";
+import upload from '@/assets/upload.png'
+import { Input } from "postcss";
 
 interface CoachFormProps {
   initialData?: { id?: string; name: string; title: string; image: string };
@@ -9,7 +10,7 @@ interface CoachFormProps {
     id?: string;
     name: string;
     title: string;
-    image: File | string;
+    image: string;
   }) => void;
 }
 
