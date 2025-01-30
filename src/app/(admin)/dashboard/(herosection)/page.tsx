@@ -104,9 +104,9 @@ export default function DefaultLayout() {
               </span>
             </p>
           </div>
-          <div className="mt-4 grid grid-cols-5 gap-3">
+          <div className="mt-4 flex flex-wrap justify-center gap-3">
             {uploadedImages.map((url, index) => (
-              <div key={index} className="relative group w-56 h-56 border p-2">
+              <div key={index} className="relative group w-80 h-60 border rounded p-2">
                 <img
                   src={url}
                   className="object-cover rounded-md shadow-sm w-full h-full"

@@ -61,7 +61,8 @@ export default function CoachList({
                 <td className="p-3">
                   <button
                     onClick={() => {
-                      toast.success("Implementation is under process...", {
+                      toast("Implementation is under process...", {
+                        className: 'toast-custom',
                         position: "bottom-right",
                         autoClose: 2000,
                         hideProgressBar: true,
@@ -89,7 +90,8 @@ export default function CoachList({
                 <td className="p-3">
                   <button
                     onClick={() => {
-                      toast.success("Implementation is under process...", {
+                      toast("Implementation is under process...", {
+                        className: 'toast-custom',
                         position: "bottom-right",
                         autoClose: 2000,
                         hideProgressBar: true,

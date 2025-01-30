@@ -34,7 +34,7 @@ export default function Register() {
       setTimeout(() => {
         router.push("/login");
       }, 1000);
-      toast.success("Login successful!", {
+      toast.warn("Registered successfully!", {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: true,
@@ -54,7 +54,7 @@ export default function Register() {
         },
       });
     } catch (error: any) {
-      toast.error("Login failed.", {
+      toast.error("registraction failed.", {
         position: "bottom-right",
         theme: "colored",
         autoClose: 1000,

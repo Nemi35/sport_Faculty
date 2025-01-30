@@ -34,7 +34,7 @@ export default function CoachForm({ initialData, onSubmit }: CoachFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="flex justify-between gap-2">
-      <div className="flex flex-col items-center border-2 border-dashed border-gray-500 rounded-lg p-4 w-[40%] h-60 gap-3 relative hover:border-sky-400">
+      <div className="flex flex-col items-center border-2 border-dashed border-gray-500 rounded-lg p-4 w-[35%] h-60 gap-3 relative hover:border-sky-400">
         {!preview ? "" : name}
         {preview ? (
           <img
@@ -66,7 +66,7 @@ export default function CoachForm({ initialData, onSubmit }: CoachFormProps) {
         />
       </div>
 
-      <div className="border rounded-lg border-gray-300 p-4 w-[60%]">
+      <div className="border rounded-lg border-gray-300 p-4 w-[65%]">
         <input
           type="text"
           placeholder="Coach Name"
@@ -74,13 +74,21 @@ export default function CoachForm({ initialData, onSubmit }: CoachFormProps) {
           onChange={(e) => setName(e.target.value)}
           className="w-full p-2 border rounded mb-6 outline-none"
         />
-        <input
+        {/* <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 border rounded mb-6 outline-none"
-        />
+        /> */}
+        <textarea
+          name=""
+          id=""
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full p-2 border rounded mb-4 outline-none resize-none"
+        ></textarea>
         <button
           type="submit"
           className="w-32 bg-sky-400 text-white py-2 rounded"
