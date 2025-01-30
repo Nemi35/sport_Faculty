@@ -82,18 +82,25 @@ export default function CoachAdmin() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 ">
-      <h2 className="text-2xl font-bold mb-4">Manage Coaches</h2>
+    <div className="px-10">
+        <h2 className="text-2xl font-bold mb-4 text-left">Manage Coaches</h2>
+      <div className="max-w-4xl mx-auto p-6 ">
 
-      {/* Form */}
-      <CoachForm initialData={editingCoach} onSubmit={handleAddOrUpdateCoach} />
+        {/* Form */}
+        <CoachForm
+          initialData={editingCoach}
+          onSubmit={handleAddOrUpdateCoach}
+        />
 
-      {/* List of Coaches */}
-      <CoachList
-        coaches={coaches}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+        {/* List of Coaches */}
+      </div>
+      <div>
+        <CoachList
+          coaches={coaches}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </div>
     </div>
   );
 }
