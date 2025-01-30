@@ -1,36 +1,84 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CoachForm from "./CoachForm";
 import CoachList from "./CoachList";
 
-export default function CoachAdmin() {
-  const [coaches, setCoaches] = useState([
-    { id: "1", name: "John Doe", title: "Head Coach", image: "/default.jpg" },
-    { id: "2", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" },
-    { id: "3", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" },
-    { id: "4", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" },
-    { id: "5", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" },
-    { id: "6", name: "Jane Smith", title: "Assistant Coach", image: "/default.jpg" }
-  ]);
-  const [editingCoach, setEditingCoach] = useState<{ id?: string; name: string; title: string; image: string } | null>(null);
+interface Coach {
+  id: string;
+  name: string;
+  title: string;
+  image: string;
+}
 
-  const handleAddOrUpdateCoach = (coach: { id?: string; name: string; title: string; image: string }) => {
-    if (coach.id) {
-      // Edit existing coach
-      setCoaches((prev) => prev.map((c) => (c.id === coach.id ? coach : c)));
-    } else {
-      // Add new coach
-      setCoaches((prev) => [...prev, { ...coach, id: uuidv4() }]);
+export default function CoachAdmin() {
+  const [coaches, setCoaches] = useState<Coach[]>([]);
+  const [editingCoach, setEditingCoach] = useState<Coach | null>(null);
+
+  // Fetch coaches from API
+  useEffect(() => {
+    const fetchCoaches = async () => {
+      try {
+        const response = await fetch("/api/profile");
+        if (!response.ok) throw new Error("Failed to fetch coaches");
+        const data = await response.json();
+        setCoaches(data);
+      } catch (error) {
+        console.error("Error fetching coaches:", error);
+      }
+    };
+    fetchCoaches();
+  }, []);
+
+  const handleAddOrUpdateCoach = async (coach: {
+    id?: string;
+    name: string;
+    title: string;
+    image: string;
+  }) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", coach.name);
+      formData.append("title", coach.title);
+
+      if (typeof coach.image === "string") {
+        formData.append("image", coach.image);
+      } else {
+        formData.append("image", coach.image as Blob);
+      }
+
+      const response = await fetch("/api/profile", {
+        method: coach.id ? "PUT" : "POST",
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error("Failed to save coach");
+
+      const updatedCoach = await response.json();
+      if (coach.id) {
+        setCoaches((prev) =>
+          prev.map((c) => (c.id === updatedCoach.id ? updatedCoach : c))
+        );
+      } else {
+        setCoaches((prev) => [...prev, updatedCoach]);
+      }
+      setEditingCoach(null);
+    } catch (error) {
+      console.error("Error saving coach:", error);
     }
-    setEditingCoach(null);
   };
 
-  const handleEdit = (coach: { id: string; name: string; title: string; image: string }) => {
+  const handleEdit = (coach: Coach) => {
     setEditingCoach(coach);
   };
 
-  const handleDelete = (id: string) => {
-    setCoaches((prev) => prev.filter((coach) => coach.id !== id));
+  const handleDelete = async (id: string) => {
+    try {
+      const response = await fetch(`/api/profile/${id}`, { method: "DELETE" });
+      if (!response.ok) throw new Error("Failed to delete coach");
+      setCoaches((prev) => prev.filter((coach) => coach.id !== id));
+    } catch (error) {
+      console.error("Error deleting coach:", error);
+    }
   };
 
   return (
@@ -41,7 +89,11 @@ export default function CoachAdmin() {
       <CoachForm initialData={editingCoach} onSubmit={handleAddOrUpdateCoach} />
 
       {/* List of Coaches */}
-      <CoachList coaches={coaches} onEdit={handleEdit} onDelete={handleDelete} />
+      <CoachList
+        coaches={coaches}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }

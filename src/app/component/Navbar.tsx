@@ -12,14 +12,18 @@ export default function Navbar() {
   };
 
   return (
-    <header className="bg-[#f1eeee6a] backdrop-blur-lg py-2 fixed z-10 w-full top-0 text-black">
+    <div className=" bg-[rgba(255,255,255,0.36)] rounded-b-[5vw] w-full h-32 p-10 flex items-center justify-between fixed backdrop-blur-md z-50 top-0   ">
+
+    <header className="w-full">
       <div className="container mx-auto flex items-center justify-between p-4">
-        <nav className="hidden md:flex justify-between w-full space-x-6">
+        <nav className="hidden md:flex justify-between gap-10 w-full space-x-8">
           <div className=""></div>
+
+
           <div className="flex gap-4 justify-center items-center">
             <a
               href="#Profile"
-              className="font-medium text-base hover:text-gray-"
+              className="font-medium text-base hhover:text-gray-300"
             >
               Coach Profile
             </a>
@@ -37,12 +41,15 @@ export default function Navbar() {
             </a>
           </div>
 
-          <Button onClick={() => window.location.href = "/login"} variant="outline" className="text-black">
-            Admin
-          </Button>
+          
+             
+          
+          <div onClick={() => window.location.href = "/login"} className="border-black border-solid border-[2px] cursor-pointer  w-fit px-6 py-2 rounded-full flex justify-center items-center gap-6 text-center text-xl">
+           Admin
+          </div>
+        
         </nav>
 
-        {/* Mobile Menu Button */}
         <Button
           variant="ghost"
           className="md:hidden"
@@ -85,5 +92,6 @@ export default function Navbar() {
         </nav>
       )}
     </header>
+    </div>
   );
 }

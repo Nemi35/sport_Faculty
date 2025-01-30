@@ -1,38 +1,27 @@
-  "use client";
-  import React from "react";
-  import { CarouselDemo } from "@/app/component/CarouselFull";
-  import { CarouselSpacing } from "@/app/component/CarouselSpacing";
-  import MyCalendar from "@/app/component/EventCalendar"
-  import Navbar from "./component/Navbar";
- 
+"use client";
+import React from "react";
+import { CarouselDemo } from "@/app/component/CarouselFull";
+import { CarouselSpacing } from "@/app/component/CarouselSpacing";
+import MyCalendar from "@/app/component/EventCalendar";
+import Navbar from "./component/Navbar";
+import Image from "next/image";
+import bg_img from "@/assets/bg_img.jpg";
+import Hero from "./component/Hero";
+import Coaches from "./component/Coaches";
+import Calender from "./component/Calender";
 
+const page = () => {
+  return (
+    <div className="  overflow-x-hidden">
+      <Navbar />
 
-  const page = () => {
-    return (
-      <>
-      <Navbar/>
-    
-      <div className=" w-[90%] mx-auto mt-24 ">
-        <div className="w-full h-screen ">
-          <CarouselDemo />
-        
-          <CarouselSpacing/>
-
-          <h2 className=" py-10  scroll-m-20  text-4xl text-center font-bold tracking-tight transition-colors first:mt-0">
-          Events Calendar
-        </h2>
-        <main className="flex justify-center items-center min-h-screen">
-          
-        <MyCalendar/>
-
-
-
-      </main>
-
-        </div>
+      <div className="w-full h-screen ">
+        <Hero />
+        <Coaches />
+        <Calender />
       </div>
-      </>
-    );
-  };
+    </div>
+  );
+};
 
-  export default page;
+export default page;

@@ -8,6 +8,7 @@ const AdminCalendar = () => {
   const [events, setEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [eventTitle, setEventTitle] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedEventId, setSelectedEventId] = useState(null);
 
@@ -28,15 +29,21 @@ const AdminCalendar = () => {
   const handleEventClick = (info: any) => {
     setSelectedEventId(info.event.id);
     setEventTitle(info.event.title);
+    setEventDescription(info.event.extendedProps.description || "");
     setSelectedDate(info.event.startStr);
     setShowModal(true);
   };
 
   const handleAddEvent = (info: any) => {
     setSelectedDate(info.dateStr);
-    setSelectedEventId(null);
     setEventTitle("");
+    setEventDescription("");
+    setSelectedEventId(null);
     setShowModal(true);
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(e.target.value); // Update the selected date
   };
 
   const handleSaveEvent = async () => {
@@ -55,6 +62,7 @@ const AdminCalendar = () => {
     const eventData = {
       title: eventTitle,
       date: selectedDateObj.toISOString(),
+      description: eventDescription,
     };
 
     let success = false;
@@ -87,6 +95,7 @@ const AdminCalendar = () => {
       // Close modal first, then refresh events
       setShowModal(false);
       setEventTitle("");
+      setEventDescription("");
       setSelectedDate(null);
       setSelectedEventId(null);
 
@@ -106,6 +115,7 @@ const AdminCalendar = () => {
   const handleModalClose = () => {
     setShowModal(false);
     setEventTitle("");
+    setEventDescription("");
     setSelectedDate(null);
     setSelectedEventId(null);
   };
@@ -114,6 +124,7 @@ const AdminCalendar = () => {
     const updatedEventData = {
       title: info.event.title,
       date: info.event.start.toISOString(),
+      description: info.event.extendedProps.description || "",
     };
 
     const response = await fetch(`/api/event/${info.event.id}`, {
@@ -161,6 +172,17 @@ const AdminCalendar = () => {
               value={eventTitle}
               onChange={(e) => setEventTitle(e.target.value)}
             />
+            <textarea
+              placeholder="Event Description"
+              value={eventDescription}
+              onChange={(e) => setEventDescription(e.target.value)}
+              rows={4}
+            />
+            <input
+              type="date"
+              value={selectedDate?.split("T")[0]} // Format to 'yyyy-mm-dd'
+              onChange={handleDateChange}
+            />
             <p style={{ fontSize: "14px", color: "gray" }}>
               Selected Date: {selectedDate || "No date selected"}
             </p>
@@ -194,7 +216,8 @@ const AdminCalendar = () => {
           flex-direction: column;
           align-items: center;
         }
-        input {
+        input,
+        textarea {
           padding: 8px;
           margin: 10px 0;
           width: 100%;

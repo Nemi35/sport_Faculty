@@ -15,11 +15,11 @@ export default function MyCalendar() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("/api/event"); 
+        const response = await fetch("/api/event");
         const data = await response.json();
-        
-     
-        setEvents(data);
+
+        // Assuming 'data.events' is an array of event objects
+        setEvents(data.events || []); // Ensure data.events exists
       } catch (error) {
         console.error("Error fetching events:", error);
       }
@@ -33,6 +33,7 @@ export default function MyCalendar() {
       title: info.event.title,
       start: info.event.start.toLocaleString(),
       end: info.event.end?.toLocaleString(),
+      desc: info.event.extendedProps.description || "No description available.", // Ensure description is fetched correctly
     };
     setSelectedEvent(eventDetails);
   };
@@ -53,13 +54,13 @@ export default function MyCalendar() {
         height="auto"
       />
 
- 
+      {/* Popup for event details */}
       {selectedEvent && (
         <div className="z-[999] fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
+          <div className="bg-white p-6 rounded-2xl shadow-lg max-w-md w-full">
             <h2 className="text-xl font-bold">{selectedEvent.title}</h2>
-            <p><strong>Description:</strong> {selectedEvent.desc || "No description available."}</p>
-            <p><strong>Date:</strong> {selectedEvent.start}</p>
+            <p><strong>Description:</strong> {selectedEvent.desc}</p>
+            <p><strong>Date:</strong> {selectedEvent.start} - {selectedEvent.end || "No end date"}</p>
             <button
               onClick={closePopup}
               className="mt-4 p-2 bg-blue-500 text-white rounded"
