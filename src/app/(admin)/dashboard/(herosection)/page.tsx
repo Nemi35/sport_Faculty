@@ -107,7 +107,7 @@ export default function DefaultLayout() {
               </span>
             </p>
           </div>
-          <div className="mt-4 grid grid-cols-5 gap-3">
+          <div className="mt-4 flex flex-wrap justify-center gap-3">
             {/* Show placeholder loader while images are being fetched */}
             {isImagesLoading ? (
               <div className="col-span-5 w-full h-24 bg-gray-200 animate-pulse rounded-md">
@@ -120,7 +120,7 @@ export default function DefaultLayout() {
               uploadedImages.map((url, index) => (
                 <div
                   key={index}
-                  className="relative group w-56 h-56 border p-2"
+                  className="relative group w-80 h-60 border rounded p-2"
                 >
                   <img
                     src={url}

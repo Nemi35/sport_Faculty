@@ -8,6 +8,10 @@ if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !pro
     throw new Error("AWS credentials or S3 bucket name are not configured properly");
 }
 
+if (!process.env.MONGO_URI) {
+    throw new Error("MongoDB URI is not configured properly");
+}
+
 const s3Client = new S3Client({
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
@@ -17,7 +21,7 @@ const s3Client = new S3Client({
 });
 
 if (!mongoose.connection.readyState) {
-    mongoose.connect(process.env.MONGODB_URI!);
+    mongoose.connect(process.env.MONGO_URI!);
 }
 
 export async function POST(request: NextRequest) {
@@ -31,6 +35,11 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Name and title are required" }, { status: 400 });
         }
 
+        // Ensure MongoDB connection is established
+        if (!mongoose.connection.readyState) {
+            await mongoose.connect(process.env.MONGO_URI!);
+        }
+
         const profileId = uuidv4();
 
         let imageUrl = "/default.jpg";
@@ -38,7 +47,7 @@ export async function POST(request: NextRequest) {
             const buffer = await file.arrayBuffer();
             const fileBuffer = Buffer.from(buffer);
             const fileExtension = file.name.split(".").pop();
-            const fileName = `profiles/${profileId}.${fileExtension}`;
+            const fileName = `${profileId}.${fileExtension}`;
             const uploadParams = {
                 Bucket: process.env.AWS_S3_BUCKET_NAME!,
                 Key: fileName,
@@ -46,10 +55,13 @@ export async function POST(request: NextRequest) {
                 ContentType: file.type,
             };
 
+            // Upload the image to S3
             await s3Client.send(new PutObjectCommand(uploadParams));
 
             imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
         }
+
+        // Save profile data
         const newProfile = new Profile({ _id: profileId, name, title, image: imageUrl });
         await newProfile.save();
 
@@ -66,7 +78,7 @@ export async function POST(request: NextRequest) {
 
 export const config = {
     api: {
-        bodyParser: false,
+        bodyParser: false, // Disable body parser for form-data
     },
 };
 
