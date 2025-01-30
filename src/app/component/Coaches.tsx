@@ -3,7 +3,7 @@ import { CarouselSpacing } from "./CarouselSpacing";
 
 const Coaches = () => {
   return (
-    <div>
+    <div id="coach">
       <div className=" w-full bg-[#121212] text-white rounded-b-[5vw]  z-20">
         <div className="p-10 pb-32">
           

@@ -32,7 +32,7 @@ export function CarouselDemo() {
 
   return (
     <div className="w-full mx-auto mt-10 pt-28 h-[450px]">
-      <Carousel className="w-full h-full  p-8">
+      <Carousel className="w-full h-full  md:p-8">
         <CarouselContent className="h-full">
           {loading ? (
             // Placeholder while images are being fetched

@@ -3,11 +3,11 @@ import { CarouselDemo } from './CarouselFull'
 
 const Hero = () => {
   return (
-    <div className=" h-[105vh]  bg-[#121212]  ">
-    <div className=' bg-[#F4F4ED]  overflow-hidden h-[100vh] rounded-[5vw] '>
+    <div className="  bg-[#121212]  ">
+    <div className=' bg-[#F4F4ED]  overflow-hidden rounded-[5vw] md:h-[60rem] '>
      
 
-<div className="w-[100%] h-full m-auto">
+<div className="w-[100%] md:h-full m-auto">
    <CarouselDemo/>
    </div>
     </div>

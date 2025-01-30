@@ -183,9 +183,9 @@ const AdminCalendar = () => {
               value={selectedDate?.split("T")[0]} // Format to 'yyyy-mm-dd'
               onChange={handleDateChange}
             />
-            <p style={{ fontSize: "14px", color: "gray" }}>
+            {/* <p style={{ fontSize: "14px", color: "gray" }}>
               Selected Date: {selectedDate || "No date selected"}
-            </p>
+            </p> */}
             <button onClick={handleSaveEvent}>
               {selectedEventId ? "Update Event" : "Save Event"}
             </button>

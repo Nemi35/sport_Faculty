@@ -44,7 +44,7 @@ export function CarouselSpacing() {
 
   return (
     <div>
-      <h2 className="pb-10 text-4xl text-center font-bold tracking-tight">
+      <h2 id="coach" className="pb-10  text-4xl text-center font-bold tracking-tight">
         Meet our expert coaches
       </h2>
       <Carousel className="w-full">
