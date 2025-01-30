@@ -12,11 +12,12 @@ export default function Navbar() {
     setIsMenuOpen((prev) => !prev);
   }, []);
 
+
   return (
     <div className="fixed top-0 z-50 w-full bg-[rgba(255,255,255,0.36)] backdrop-blur-md rounded-b-[5vw] shadow-md transition-all duration-300">
       <header className="container mx-auto flex items-center justify-between p-4 md:h-20">
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex justify-between w-full">
+        <nav className="hidden md:flex justify-between w-full px-10">
           <div className="flex gap-6 items-center">
             <Link
               href="#coach"

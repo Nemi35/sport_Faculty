@@ -31,7 +31,7 @@ export function CarouselDemo() {
   }, []);
 
   return (
-    <div className="w-full mx-auto mt-10 pt-28 h-[450px]">
+    <div className="w-full mx-auto mt-10 pt-28 ">
       <Carousel className="w-full h-full  md:p-8">
         <CarouselContent className="h-full">
           {loading ? (
@@ -42,14 +42,14 @@ export function CarouselDemo() {
             images.map((imgUrl, index) => (
               <CarouselItem key={index} className="h-full">
                 <div className="p-1 w-full h-full flex justify-center items-center">
-                  <Card className="h-[450px] w-full overflow-hidden  border-none shadow-none rounded-[5vw]">
-                    <CardContent className="flex items-center w-full rounded-[5vw] justify-center h-full p-6">
+                  <Card className="h-[44rem] w-full overflow-hidden  border-none shadow-none rounded-[5vw]">
+                    <CardContent className="flex items-center p-0 rounded-[5vw] justify-center h-full ">
                       <Image
                         src={imgUrl}
                         alt={`Image ${index + 1}`}
                         layout="responsive"
-                        width={100}
-                        height={60}
+                        width={100} // Set width percentage
+                        height={60} // Set height percentage
                         className="img-fluid rounded-[5vw]"
                         priority
                         quality={80}

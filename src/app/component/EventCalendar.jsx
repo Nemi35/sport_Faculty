@@ -1,13 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
+
+import { useEffect, useState } from "react";
 
 export default function MyCalendar() {
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -22,54 +19,36 @@ export default function MyCalendar() {
     fetchEvents();
   }, []);
 
-  const handleEventClick = (info) => {
-    const eventDetails = {
-      title: info.event.title,
-      start: info.event.start
-        ? info.event.start.toISOString().split("T")[0]
-        : "No date available",
-      end: info.event.end
-        ? info.event.end.toISOString().split("T")[0]
-        : "No end date",
-      desc: info.event.extendedProps.description || "No description available.",
-    };
-    setSelectedEvent(eventDetails);
-  };
-
-  const closePopup = () => {
-    setSelectedEvent(null);
+  // Function to format date to dd-MMM (with date on top and month below)
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = date.toLocaleString('default', { month: 'short' }); // Get short form of month (e.g., "Jan")
+    return { day, month };
   };
 
   return (
-    <div className="p-4">
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={events}
-        eventClick={handleEventClick}
-        editable={false}
-        droppable={false}
-        height="auto"
-      />
-      {selectedEvent && (
-        <div className="z-[999] fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-2xl shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold">{selectedEvent.title}</h2>
-            <p>
-              <strong>Description:</strong> {selectedEvent.desc}
-            </p>
-            <p>
-              <strong>Date:</strong> {selectedEvent.start}
-            </p>
-            <button
-              onClick={closePopup}
-              className="mt-4 p-2 bg-blue-500 text-white rounded"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+    <div className="p-4 w-full md:w-[80%] mx-auto h-[60%] overflow-y-auto">
+      <div className="space-y-4">
+        {events.map((event, index) => {
+          const { day, month } = formatDate(event.date);
+          const eventTitle = event.title || "No title available";
+          const eventDesc = event.description || "No description available.";
+
+          return (
+            <div key={index} className="flex flex-col md:flex-row items-center md:space-x-6 p-4 border-b">
+              <div className="text-4xl font-bold mb-2 md:mb-0">
+                <div>{day}</div>
+                <div className="text-lg">{month}</div>
+              </div>
+              <div className="flex-1">
+                <h2 className="text-xl md:text-2xl font-semibold">{eventTitle}</h2>
+                <p className="text-base md:text-lg">{eventDesc}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

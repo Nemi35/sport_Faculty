@@ -10,6 +10,9 @@
   font-family: MonaSans;
   src: url("../assets/MonaSansExpanded-Regular.woff2");
 }
+html {
+  @apply scroll-smooth;
+}
 
 body {
   font-family: MonaSans;
@@ -21,6 +24,7 @@ body {
     text-wrap: balance;
   }
 }
+
 
 @layer base {
   :root {
