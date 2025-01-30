@@ -9,6 +9,7 @@ import upload from "@/assets/upload.png";
 export default function DefaultLayout() {
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isImagesLoading, setIsImagesLoading] = useState(true);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -17,6 +18,8 @@ export default function DefaultLayout() {
         setUploadedImages(response.data);
       } catch (error) {
         console.error("Failed to fetch images", error);
+      } finally {
+        setIsImagesLoading(false);
       }
     };
     fetchImages();
@@ -104,25 +107,42 @@ export default function DefaultLayout() {
               </span>
             </p>
           </div>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
-            {uploadedImages.map((url, index) => (
-              <div key={index} className="relative group w-80 h-60 border rounded p-2">
-                <img
-                  src={url}
-                  className="object-cover rounded-md shadow-sm w-full h-full"
-                  alt="Uploaded Preview"
-                />
-                {/* Remove button */}
-                <button
-                  onClick={() => removeImage(index)}
-                  className="absolute top-5 right-5 bg-black/50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition duration-200"
-                >
-                  <XCircle size={18} />
-                </button>
+          <div className="mt-4 grid grid-cols-5 gap-3">
+            {/* Show placeholder loader while images are being fetched */}
+            {isImagesLoading ? (
+              <div className="col-span-5 w-full h-24 bg-gray-200 animate-pulse rounded-md">
+                <div className="flex justify-center items-center h-25">
+                  <span className="animate-spin border-4 border-gray-300 border-t-blue-500 rounded-full w-10 h-10"></span>
+                  <p className="ml-3 text-gray-600">Fetching data...</p>
+                </div>
               </div>
-            ))}
+            ) : (
+              uploadedImages.map((url, index) => (
+                <div
+                  key={index}
+                  className="relative group w-56 h-56 border p-2"
+                >
+                  <img
+                    src={url}
+                    className="object-cover rounded-md shadow-sm w-full h-full"
+                    alt="Uploaded Preview"
+                  />
+                  {/* Remove button */}
+                  <button
+                    onClick={() => removeImage(index)}
+                    className="absolute top-5 right-5 bg-black/50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition duration-200"
+                  >
+                    <XCircle size={18} />
+                  </button>
+                </div>
+              ))
+            )}
+            {/* Show a loading spinner during image upload */}
             {loading && (
-              <div className="w-full h-24 bg-gray-200 animate-pulse rounded-md"></div>
+              <div className="flex justify-center items-center h-40">
+                <span className="animate-spin border-4 border-gray-300 border-t-blue-500 rounded-full w-10 h-10"></span>
+                <p className="ml-3 text-gray-600">Uploading</p>
+              </div>
             )}
           </div>
         </div>

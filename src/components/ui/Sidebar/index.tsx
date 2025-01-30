@@ -110,7 +110,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
               <ul className="mb-6 flex flex-col gap-1.5 text-white">
                 {group.menuItems.map((menuItem, menuIndex) => (
-                  <SidebarItem key={menuIndex} item={menuItem} />
+                  <SidebarItem
+                    key={menuIndex}
+                    item={menuItem}
+                    isActive={pathname === menuItem.route}
+                  />
                 ))}
               </ul>
             </div>

@@ -86,6 +86,7 @@ export function CarouselSpacing() {
                       priority={index < 2} // Load first 2 images fast, rest lazy load
                       quality={index < 2 ? 80 : 50} // Reduce quality for non-priority images
                       loading={index < 2 ? "eager" : "lazy"}
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
                   <div className="absolute bottom-0 w-full p-6 text-left bg-gradient-to-t from-white to-transparent">
