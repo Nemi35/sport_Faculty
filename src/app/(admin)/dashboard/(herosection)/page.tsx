@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { XCircle } from "lucide-react";
+import Image from "next/image";
+import upload from '@/assets/upload.png'
 
 export default function DefaultLayout() {
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
@@ -91,14 +93,17 @@ export default function DefaultLayout() {
   return (
     <>
       <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-        <div className="max-w-lg mx-auto p-6 border rounded-lg bg-white shadow-md">
+        <div className=" mx-auto p-6 border rounded-lg bg-white shadow-md">
           {/* Drag & Drop Box */}
           <div
             {...getRootProps()}
-            className="border-dashed border-2 border-gray-300 p-6 cursor-pointer text-center rounded-lg hover:border-blue-500 transition duration-200"
+            className="flex flex-col justify-center items-center gap-3 border-dashed border-2 border-gray-300 p-6 cursor-pointer text-center rounded-lg hover:border-blue-500 transition duration-200 py-32 mx-4"
           >
+            <span>
+            <Image src={upload} width={50} height={50} alt="Upload Icon" />
+            </span>
             <input {...getInputProps()} />
-            <p className="text-gray-600">
+            <p className="text-gray-600 ">
               Drag & drop images here, or{" "}
               <span className="text-blue-500 font-semibold">
                 click to select
@@ -107,18 +112,20 @@ export default function DefaultLayout() {
           </div>
 
           {/* Image Preview */}
-          <div className="mt-4 grid grid-cols-3 gap-3">
+          <div className="mt-4 grid grid-cols-5 gap-3">
+
+
             {uploadedImages.map((url, index) => (
-              <div key={index} className="relative group">
+              <div key={index} className="relative group w-56 h-56 border p-2">
                 <img
                   src={url}
-                  className="w-full h-24 object-cover rounded-md shadow-sm"
+                  className="object-cover rounded-md shadow-sm w-full h-full"
                   alt="Uploaded Preview"
                 />
-                {/* Remove Button */}
+                {/* Remove button */}
                 <button
                   onClick={() => removeImage(index)}
-                  className="absolute top-1 right-1 bg-black/50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition duration-200"
+                  className="absolute top-5 right-5 bg-black/50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition duration-200"
                 >
                   <XCircle size={18} />
                 </button>
