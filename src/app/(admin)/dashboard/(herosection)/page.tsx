@@ -4,7 +4,7 @@ import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { XCircle } from "lucide-react";
 import Image from "next/image";
-import upload from '@/assets/upload.png'
+import upload from "@/assets/upload.png";
 
 export default function DefaultLayout() {
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
@@ -100,7 +100,7 @@ export default function DefaultLayout() {
             className="flex flex-col justify-center items-center gap-3 border-dashed border-2 border-gray-300 p-6 cursor-pointer text-center rounded-lg hover:border-blue-500 transition duration-200 py-32 mx-4"
           >
             <span>
-            <Image src={upload} width={50} height={50} alt="Upload Icon" />
+              <Image src={upload} width={50} height={50} alt="Upload Icon" />
             </span>
             <input {...getInputProps()} />
             <p className="text-gray-600 ">
@@ -112,11 +112,9 @@ export default function DefaultLayout() {
           </div>
 
           {/* Image Preview */}
-          <div className="mt-4 grid grid-cols-5 gap-3">
-
-
+          <div className="mt-4 flex gap-4 ">
             {uploadedImages.map((url, index) => (
-              <div key={index} className="relative group w-56 h-56 border p-2">
+              <div key={index} className="relative group w-80 h-60  border p-2">
                 <img
                   src={url}
                   className="object-cover rounded-md shadow-sm w-full h-full"

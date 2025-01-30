@@ -79,7 +79,7 @@ export default function CoachForm({ initialData, onSubmit }: CoachFormProps) {
           type="submit"
           className="w-32 bg-sky-400 text-white py-2 rounded"
         >
-          {initialData ? "Update Coach" : "Add Coach"}
+          Add Coach
         </button>
       </div>
     </form>
