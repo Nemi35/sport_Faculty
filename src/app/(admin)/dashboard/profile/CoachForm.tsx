@@ -43,7 +43,15 @@ export default function CoachForm({ initialData, onSubmit }: CoachFormProps) {
           />
         ) : (
           <div className="flex flex-col items-center gap-2 pt-10">
-            <Image src={upload} width={50} height={50} alt="Upload Icon" />
+            <Image
+              src={upload}
+              width={50}
+              height={50}
+              alt="Upload Icon"
+              layout="intrinsic"
+              priority
+              quality={80}
+            />
             <p className="text-center">
               Upload <span className="font-semibold">Coach Image</span>
             </p>

@@ -54,6 +54,9 @@ const DropdownUser = () => {
               height: "50",
             }}
             alt="User"
+            layout="intrinsic"
+            priority
+            quality={80}
           />
         </span>
 

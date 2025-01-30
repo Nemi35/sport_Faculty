@@ -79,13 +79,22 @@ export default function DefaultLayout() {
   return (
     <>
       <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+        <h2 className="text-4xl font-bold mb-4">Manage Hero Section</h2>
         <div className=" mx-auto p-6 border rounded-lg bg-white shadow-md">
           <div
             {...getRootProps()}
             className="flex flex-col justify-center items-center gap-3 border-dashed border-2 border-gray-300 p-6 cursor-pointer text-center rounded-lg hover:border-blue-500 transition duration-200 py-32 mx-4"
           >
             <span>
-              <Image src={upload} width={50} height={50} alt="Upload Icon" />
+              <Image
+                src={upload}
+                width={50}
+                height={50}
+                alt="Upload Icon"
+                layout="intrinsic"
+                priority
+                quality={80}
+              />
             </span>
             <input {...getInputProps()} />
             <p className="text-gray-600 ">
