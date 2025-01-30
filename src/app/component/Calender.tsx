@@ -3,7 +3,7 @@ import MyCalendar from "./EventCalendar";
 
 const Calender = () => {
   return (
-    <div  id="calendar" className="bg-white p-4">
+    <div   className="bg-white p-4">
       <h2  className="pb-10  mt-10 text-4xl text-center font-bold tracking-tight">
         Upcoming Events
       </h2>

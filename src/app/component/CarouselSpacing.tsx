@@ -9,7 +9,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "@/components/ui/carouselCoach"
 import Image from "next/image";
 
 // API fetcher function
@@ -31,8 +31,8 @@ export function CarouselSpacing() {
     error,
     isLoading,
   } = useSWR<Coach[]>("/api/profile", fetcher, {
-    revalidateOnFocus: false, // Prevents refetching on window focus
-    dedupingInterval: 300000, // Cache for 5 minutes
+    revalidateOnFocus: false, 
+    dedupingInterval: 300000, 
   });
 
   if (isLoading) {
@@ -83,8 +83,8 @@ export function CarouselSpacing() {
                       alt={coach.name}
                       layout="fill"
                       objectFit="cover"
-                      priority={index < 2} // Load first 2 images fast, rest lazy load
-                      quality={index < 2 ? 80 : 50} // Reduce quality for non-priority images
+                      priority={index < 2} 
+                      quality={index < 2 ? 80 : 50} 
                       loading={index < 2 ? "eager" : "lazy"}
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />

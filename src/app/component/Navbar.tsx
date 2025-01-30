@@ -17,7 +17,7 @@ export default function Navbar() {
     <div className="fixed top-0 z-50 w-full bg-[rgba(255,255,255,0.36)] backdrop-blur-md rounded-b-[5vw] shadow-md transition-all duration-300">
       <header className="container mx-auto flex items-center justify-between p-4 md:h-20">
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex justify-between w-full px-10">
+        <nav className="hidden md:flex justify-between w-full px-8">
           <div className="flex gap-6 items-center">
             <Link
               href="#coach"
@@ -70,39 +70,24 @@ export default function Navbar() {
         <ul className="flex flex-col items-center space-y-4 p-6 text-lg font-medium">
           <li>
             <Link
-              href="/"
+              href="coach"
               className="hover:text-gray-600 transition-colors"
               onClick={toggleMenu}
             >
-              Home
+               Coach Profile
             </Link>
           </li>
           <li>
             <Link
-              href="#about"
+              href="calendar"
               className="hover:text-gray-600 transition-colors"
               onClick={toggleMenu}
             >
-              About
+          Events Calendar
             </Link>
           </li>
           <li>
-            <Link
-              href="#services"
-              className="hover:text-gray-600 transition-colors"
-              onClick={toggleMenu}
-            >
-              Services
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="#contact"
-              className="hover:text-gray-600 transition-colors"
-              onClick={toggleMenu}
-            >
-              Contact
-            </Link>
+        
           </li>
         </ul>
       </div>

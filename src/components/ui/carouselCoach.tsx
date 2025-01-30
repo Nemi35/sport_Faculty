@@ -16,7 +16,6 @@ type CarouselProps = {
   plugins?: CarouselPlugin;
   orientation?: "horizontal" | "vertical";
   setApi?: (api: CarouselApi) => void;
-  autoplayInterval?: number;  // Autoplay interval in milliseconds
 };
 
 type CarouselContextProps = {
@@ -44,11 +43,11 @@ const Carousel = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement> & CarouselProps
 >(
   (
-    { orientation = "horizontal", opts, setApi, plugins, autoplayInterval = 3000, className, children, ...props },
+    { orientation = "horizontal", opts, setApi, plugins, className, children, ...props },
     ref
   ) => {
     const [carouselRef, api] = useEmblaCarousel(
-      { ...opts, axis: orientation === "horizontal" ? "x" : "y", loop: true },
+      { ...opts, axis: orientation === "horizontal" ? "x" : "y" },
       plugins
     );
     const [canScrollPrev, setCanScrollPrev] = React.useState(false);
@@ -97,17 +96,6 @@ const Carousel = React.forwardRef<
         api?.off("select", onSelect);
       };
     }, [api, onSelect]);
-
-    // Autoplay functionality
-    React.useEffect(() => {
-      if (!api) return;
-
-      const autoplay = setInterval(() => {
-        api.scrollNext();
-      }, autoplayInterval);
-
-      return () => clearInterval(autoplay);
-    }, [api, autoplayInterval]);
 
     return (
       <CarouselContext.Provider
@@ -192,7 +180,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         className={cn(
           "absolute md:h-16 md:w-16 rounded-full transition-all duration-200",
           orientation === "horizontal"
-            ? " top-1/2 -translate-y-1/2 left-[5px]"
+            ? " top-1/2 -translate-y-1/2 -left-[20px] md:-left-[30px]"
             : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
           className,
           {
@@ -203,7 +191,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         onClick={scrollPrev}
         {...props}
       >
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeft className="h-4 text-black w-4" />
         <span className="sr-only">Previous slide</span>
       </Button>
     );
@@ -223,18 +211,18 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         className={cn(
           "absolute md:h-16 md:w-16 rounded-full transition-all duration-200",
           orientation === "horizontal"
-            ? " top-1/2 -translate-y-1/2 right-[5px]"
-            : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
+            ? " top-1/2 -translate-y-1/2 bg-[#dcd9de] -right-[20px] md:-right-[30px]"
+            : "-bottom-12 bg-green-400 left-1/2 -translate-x-1/2 rotate-90",
           className,
           {
-            "opacity-0 pointer-events-none": !canScrollNext, 
+            "opacity-0 pointer-events-none": !canScrollNext, // Hide arrow when it's disabled
           }
         )}
         disabled={!canScrollNext}
         onClick={scrollNext}
         {...props}
       >
-        <ArrowRight className="h-8 w-8" />
+        <ArrowRight className="h-8 text-black w-8" />
         <span className="sr-only">Next slide</span>
       </Button>
     );
