@@ -14,7 +14,6 @@ const page = () => {
   return (
     <div className="  overflow-x-hidden">
       <Navbar />
-
       <div className="w-full h-screen ">
         <Hero />
         <Coaches />

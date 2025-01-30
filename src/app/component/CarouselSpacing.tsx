@@ -65,8 +65,6 @@ export function CarouselSpacing() {
                       objectFit="cover"
                     />
                   </div>
-
-                  {/* Text at the bottom */}
                   <div className="absolute bottom-0 w-full p-[50px_12px_35px_12px] text-left bg-gradient-to-t from-white to-transparent">
                     <h3 className="text-3xl text-black font-serif pb-2.5 font-semibold">
                       {coach.name}

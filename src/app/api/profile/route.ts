@@ -4,12 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import mongoose from "mongoose";
 import Profile from "@/models/Profile";
 
-// Ensure AWS credentials are set
 if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_S3_BUCKET_NAME) {
     throw new Error("AWS credentials or S3 bucket name are not configured properly");
 }
 
-// Initialize S3 client
 const s3Client = new S3Client({
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
@@ -18,12 +16,10 @@ const s3Client = new S3Client({
     region: process.env.AWS_REGION!,
 });
 
-// Connect to MongoDB
 if (!mongoose.connection.readyState) {
     mongoose.connect(process.env.MONGODB_URI!);
 }
 
-// Handle POST request for profile creation
 export async function POST(request: NextRequest) {
     try {
         const formData = await request.formData();
@@ -35,20 +31,14 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Name and title are required" }, { status: 400 });
         }
 
-        // Generate a unique profile ID
         const profileId = uuidv4();
 
-        let imageUrl = "/default.jpg"; // Default image
+        let imageUrl = "/default.jpg";
         if (file) {
-            // Convert file to buffer
             const buffer = await file.arrayBuffer();
             const fileBuffer = Buffer.from(buffer);
             const fileExtension = file.name.split(".").pop();
-
-            // Store image in `profiles/` directory with profileId as filename
             const fileName = `profiles/${profileId}.${fileExtension}`;
-
-            // Upload to S3
             const uploadParams = {
                 Bucket: process.env.AWS_S3_BUCKET_NAME!,
                 Key: fileName,
@@ -60,8 +50,6 @@ export async function POST(request: NextRequest) {
 
             imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
         }
-
-        // Save profile to MongoDB with unique ID
         const newProfile = new Profile({ _id: profileId, name, title, image: imageUrl });
         await newProfile.save();
 

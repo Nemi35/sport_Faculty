@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Use useRouter for navigation in Next.js 14+
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ui/ClickOutside";
-import userIcon from '@/assets/user.png'
+import userIcon from "@/assets/user.png";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const router = useRouter(); // Router for navigation
+  const router = useRouter();
   const [username, setUsername] = useState<string | null>(null);
 
   const handleLogout = async () => {
     try {
       await fetch("/api/auth/logout", {
         method: "POST",
-        credentials: "include", // Ensure cookies are included in the request
+        credentials: "include",
       });
 
-      localStorage.removeItem("username"); // Remove local storage data
-      window.location.href = "/login"; // Redirect to login page
+      localStorage.removeItem("username");
+      window.location.href = "/login";
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -74,7 +74,6 @@ const DropdownUser = () => {
         </svg>
       </Link>
 
-      {/* Dropdown Start */}
       {dropdownOpen && (
         <div className="absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <button
@@ -102,7 +101,6 @@ const DropdownUser = () => {
           </button>
         </div>
       )}
-      {/* Dropdown End */}
     </ClickOutside>
   );
 };

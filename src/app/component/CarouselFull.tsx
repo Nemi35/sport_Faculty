@@ -17,9 +17,9 @@ export function CarouselDemo() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch("/api/images"); // Replace with your actual API endpoint
+        const response = await fetch("/api/images");
         const data = await response.json();
-        setImages(data); // Assuming the API returns an array of image URLs
+        setImages(data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching images:", error);
@@ -35,7 +35,6 @@ export function CarouselDemo() {
       <Carousel className="w-full h-full  md:p-8">
         <CarouselContent className="h-full">
           {loading ? (
-            // Placeholder while images are being fetched
             <div className="w-full h-full flex justify-center items-center">
               <div className="text-center text-gray-500">Loading...</div>
             </div>
@@ -49,8 +48,8 @@ export function CarouselDemo() {
                         src={imgUrl}
                         alt={`Image ${index + 1}`}
                         layout="responsive"
-                        width={100} // Set width percentage
-                        height={60} // Set height percentage
+                        width={100}
+                        height={60}
                         className="img-fluid rounded-[5vw]"
                       />
                     </CardContent>

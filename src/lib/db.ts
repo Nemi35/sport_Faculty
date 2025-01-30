@@ -1,14 +1,13 @@
-// lib/db.ts
 import mongoose from 'mongoose';
 
 let isConnected = false;
 
 export async function connectToDatabase() {
   if (isConnected) {
-    return; // If already connected, do nothing
+    return;
   }
 
-  const dbUri = process.env.MONGO_URI || ''; // Ensure to set your MongoDB URI in environment variables
+  const dbUri = process.env.MONGO_URI || ''; 
 
   try {
     await mongoose.connect(dbUri, {
