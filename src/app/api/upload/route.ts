@@ -6,7 +6,6 @@ if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
     throw new Error('AWS credentials are not properly configured');
 }
 
-// Initialize S3 client with simplified configuration
 const s3Client = new S3Client({
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -27,15 +26,12 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Read file as buffer
         const buffer = await file.arrayBuffer();
         const fileBuffer = Buffer.from(buffer);
 
-        // Generate unique filename
         const fileExtension = file.name.split('.').pop();
         const fileName = `${uuidv4()}.${fileExtension}`;
 
-        // Set up S3 upload parameters
         const uploadParams = {
             Bucket: process.env.AWS_S3_BUCKET_NAME!,
             Key: `uploads/${fileName}`,
@@ -43,7 +39,6 @@ export async function POST(request: NextRequest) {
             ContentType: file.type,
         };
 
-        // Log the upload attempt (remove in production)
         console.log('Attempting upload with params:', {
             ...uploadParams,
             Body: 'Buffer data not shown',

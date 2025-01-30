@@ -1,32 +1,27 @@
 "use client";
-
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [token, setToken] = useState<string | null>(null);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
       setErrorMessage("Please enter both email and password.");
       return;
     }
-
     try {
       const response = await axios.post("/api/auth", { email, password });
       setToken(response.data.token); // Store token (e.g., in localStorage or cookies)
       setErrorMessage("");
       const username = email.split("@")[0];
       localStorage.setItem("username", username);
-      // alert("Login successful!");
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.href = "/dashboard";
-      },1000)
+      }, 1000);
       toast.success("Login successful!", {
         position: "bottom-right",
         autoClose: 1000,
@@ -38,29 +33,28 @@ export default function Login() {
         theme: "colored",
         closeButton: false,
         style: {
-          width: '300px',  // Set the width
-          fontSize: '18px', // Set the font size
-          padding: '0 12px',  // Adjust padding
-          borderRadius: '6px',  // Optional: customize border radius
-          height:"20px",
-          boxShadow:"0px 0px 10px 3px #9b9b9b",
+          width: "300px",
+          fontSize: "18px",
+          padding: "0 12px",
+          borderRadius: "6px",
+          height: "20px",
+          boxShadow: "0px 0px 10px 3px #9b9b9b",
         },
       });
     } catch (error: any) {
-      // setErrorMessage(error.response?.data?.error || "Login failed.");
-      toast.error("Login failed.",{
+      toast.error("Login failed.", {
         position: "bottom-right",
         autoClose: 1000,
         theme: "colored",
         hideProgressBar: true,
         style: {
-          width: '300px',  // Set the width
-          fontSize: '18px', // Set the font size
-          padding: '0 12px',  // Adjust padding
-          borderRadius: '6px',  // Optional: customize border radius
-          height:"20px",
-          boxShadow:"0px 0px 10px 3px #9b9b9b",
-        }
+          width: "300px",
+          fontSize: "18px",
+          padding: "0 12px",
+          borderRadius: "6px",
+          height: "20px",
+          boxShadow: "0px 0px 10px 3px #9b9b9b",
+        },
       });
     }
   };

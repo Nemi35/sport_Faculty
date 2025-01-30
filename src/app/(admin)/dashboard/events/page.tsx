@@ -12,7 +12,6 @@ const AdminCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedEventId, setSelectedEventId] = useState(null);
 
-  // Fetch events from the API
   useEffect(() => {
     const fetchEvents = async () => {
       const response = await fetch("/api/event");
@@ -43,7 +42,7 @@ const AdminCalendar = () => {
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedDate(e.target.value); // Update the selected date
+    setSelectedDate(e.target.value);
   };
 
   const handleSaveEvent = async () => {
@@ -52,7 +51,6 @@ const AdminCalendar = () => {
       return;
     }
 
-    // Validate Date
     const selectedDateObj = new Date(selectedDate);
     if (isNaN(selectedDateObj.getTime())) {
       alert("Please select a valid date.");
@@ -68,7 +66,6 @@ const AdminCalendar = () => {
     let success = false;
 
     if (selectedEventId) {
-      // Update existing event with PUT request
       const response = await fetch(`/api/event/${selectedEventId}`, {
         method: "PUT",
         body: JSON.stringify(eventData),
@@ -79,7 +76,6 @@ const AdminCalendar = () => {
 
       if (response.ok) success = true;
     } else {
-      // Add new event (POST request)
       const response = await fetch("/api/event", {
         method: "POST",
         body: JSON.stringify(eventData),
@@ -92,14 +88,11 @@ const AdminCalendar = () => {
     }
 
     if (success) {
-      // Close modal first, then refresh events
       setShowModal(false);
       setEventTitle("");
       setEventDescription("");
       setSelectedDate(null);
       setSelectedEventId(null);
-
-      // Refresh events
       const updatedEventsResponse = await fetch("/api/event");
       const updatedData = await updatedEventsResponse.json();
       const mappedUpdatedEvents = updatedData.events.map((event: any) => ({
@@ -138,7 +131,6 @@ const AdminCalendar = () => {
     if (!response.ok) {
       alert("Failed to update the event date");
     } else {
-      // Refresh events after successful update
       const updatedEventsResponse = await fetch("/api/event");
       const updatedData = await updatedEventsResponse.json();
       const mappedUpdatedEvents = updatedData.events.map((event: any) => ({
@@ -161,7 +153,6 @@ const AdminCalendar = () => {
         eventDrop={handleEventDrop}
       />
 
-      {/* Modal for adding/updating event */}
       {showModal && (
         <div className="modal ">
           <div className="modal-content">
@@ -180,12 +171,9 @@ const AdminCalendar = () => {
             />
             <input
               type="date"
-              value={selectedDate?.split("T")[0]} // Format to 'yyyy-mm-dd'
+              value={selectedDate?.split("T")[0]}
               onChange={handleDateChange}
             />
-            {/* <p style={{ fontSize: "14px", color: "gray" }}>
-              Selected Date: {selectedDate || "No date selected"}
-            </p> */}
             <button onClick={handleSaveEvent}>
               {selectedEventId ? "Update Event" : "Save Event"}
             </button>

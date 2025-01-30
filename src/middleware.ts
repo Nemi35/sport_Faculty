@@ -11,7 +11,6 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
 }
 
-// Apply middleware to protected routes
 export const config = {
-    matcher: ["/dashboard/:path*"], // Protect dashboard and its subroutes
+    matcher: ["/dashboard/:path*"],
 };

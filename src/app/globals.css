@@ -11,7 +11,6 @@
   src: url("../assets/MonaSansExpanded-Regular.woff2");
 }
 
-/* Custom Styles */
 body {
   font-family: MonaSans;
 
@@ -22,8 +21,6 @@ body {
     text-wrap: balance;
   }
 }
-
-
 
 @layer base {
   :root {

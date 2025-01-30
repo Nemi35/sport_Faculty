@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ProfileSchema = new mongoose.Schema(
     {
-        _id: { type: String, required: true }, // Store unique profile ID
+        _id: { type: String, required: true }, 
         name: { type: String, required: true },
         title: { type: String, required: true },
         image: { type: String, default: "/default.jpg" },

@@ -1,25 +1,19 @@
-// Import necessary dependencies
-import { connectToDatabase } from "@/lib/db"; // Ensure you're connecting to the database
-import EventModel from "@/models/Event"; // Import your Event model
-import { NextResponse } from "next/server"; // Correct response helper for Next.js 13+ App Directory
+import { connectToDatabase } from "@/lib/db";
+import EventModel from "@/models/Event";
+import { NextResponse } from "next/server";
 
-// POST handler for adding events
 export async function POST(req: Request) {
-  await connectToDatabase(); // Ensure MongoDB connection
+  await connectToDatabase();
 
   try {
     const { title, date, description } = await req.json();
     console.log(`title: ${title}, ${date}, ${description}`);
-    // Include description in the request body
-
     if (!title || !date || !description) {
-      // Validate that description is provided
       return NextResponse.json(
         { error: "Title, date, and description are required" },
         { status: 400 }
       );
     }
-
     const eventDate = new Date(date);
     if (isNaN(eventDate.getTime())) {
       return NextResponse.json(
@@ -27,18 +21,14 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-
-    // Create new event document
     const newEvent = new EventModel({
       title,
       date: eventDate,
       description,
       createdAt: new Date(),
     });
-
     console.log("Saving event:", newEvent);
     await newEvent.save();
-
     return NextResponse.json(
       {
         message: "Event added successfully",
@@ -52,14 +42,11 @@ export async function POST(req: Request) {
   }
 }
 
-// GET handler for fetching all events
 export async function GET(req: Request) {
-  await connectToDatabase(); // Ensure MongoDB connection
+  await connectToDatabase();
 
   try {
-    // Fetch all events from the database, including the description field
     const events = await EventModel.find();
-
     return NextResponse.json(
       {
         message: "Events fetched successfully",

@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import upload from '@/assets/upload.png'
-import { Input } from "postcss";
+import upload from "@/assets/upload.png";
 
 interface CoachFormProps {
   initialData?: { id?: string; name: string; title: string; image: string };
@@ -74,7 +73,6 @@ export default function CoachForm({ initialData, onSubmit }: CoachFormProps) {
           onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 border rounded mb-6 outline-none"
         />
-
         <button
           type="submit"
           className="w-32 bg-sky-400 text-white py-2 rounded"

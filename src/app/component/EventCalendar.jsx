@@ -1,25 +1,19 @@
-"use client"; // This is necessary for client-side rendering in Next.js 13+
-
+"use client";
 import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid"; // Month View
-import timeGridPlugin from "@fullcalendar/timegrid"; // Week & Day Views
-import interactionPlugin from "@fullcalendar/interaction"; // Enables event interaction
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 
 export default function MyCalendar() {
-  // State to manage the list of events
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
-
-  // Fetch events from the API
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await fetch("/api/event");
         const data = await response.json();
-
-        // Assuming 'data.events' is an array of event objects
-        setEvents(data.events || []); // Ensure data.events exists
+        setEvents(data.events || []);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
@@ -33,10 +27,10 @@ export default function MyCalendar() {
       title: info.event.title,
       start: info.event.start
         ? info.event.start.toISOString().split("T")[0]
-        : "No date available", // Extract only the date
+        : "No date available",
       end: info.event.end
         ? info.event.end.toISOString().split("T")[0]
-        : "No end date", // Extract only the date
+        : "No end date",
       desc: info.event.extendedProps.description || "No description available.",
     };
     setSelectedEvent(eventDetails);
@@ -57,8 +51,6 @@ export default function MyCalendar() {
         droppable={false}
         height="auto"
       />
-
-      {/* Popup for event details */}
       {selectedEvent && (
         <div className="z-[999] fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-2xl shadow-lg max-w-md w-full">

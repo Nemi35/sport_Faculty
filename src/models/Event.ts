@@ -1,4 +1,3 @@
-// models/Event.ts
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IEvent extends Document {
@@ -12,7 +11,7 @@ const eventSchema = new Schema<IEvent>(
   {
     title: { type: String, required: true },
     date: { type: Date, required: true },
-    description: { type: String, required: true }, // Ensure this is marked as required or optional based on your needs
+    description: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
