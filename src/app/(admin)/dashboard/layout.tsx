@@ -13,7 +13,7 @@ export default function DefaultLayout({
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       <div className="relative flex flex-1 flex-col ml-[11.6rem]">
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <main className="p-4">{children}</main>
+        <main className="p-4 z-[-1]">{children}</main>
       </div>
     </div>
   );

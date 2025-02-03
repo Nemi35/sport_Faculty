@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import SidebarItem from "./SidebarItem";
 
 interface SidebarProps {
@@ -89,8 +88,7 @@ const menuGroups = [
   },
 ];
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const pathname = usePathname();
+const Sidebar = ({ sidebarOpen }: SidebarProps) => {
 
   return (
     <aside
@@ -113,8 +111,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   <SidebarItem
                     key={menuIndex}
                     item={menuItem}
-                    isActive={pathname === menuItem.route}
-                  />
+                    pageName={group.name.toLowerCase()} 
+                    setPageName={undefined}                  />
                 ))}
               </ul>
             </div>

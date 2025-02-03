@@ -16,7 +16,7 @@ const AdminCalendar = () => {
     const fetchEvents = async () => {
       const response = await fetch("/api/event");
       const data = await response.json();
-      const mappedEvents = data.events.map((event: any) => ({
+      const mappedEvents = data.events.map((event) => ({
         ...event,
         id: event._id,
       }));
@@ -25,7 +25,7 @@ const AdminCalendar = () => {
     fetchEvents();
   }, []);
 
-  const handleEventClick = (info: any) => {
+  const handleEventClick = (info) => {
     setSelectedEventId(info.event.id);
     setEventTitle(info.event.title);
     setEventDescription(info.event.extendedProps.description || "");
@@ -33,7 +33,7 @@ const AdminCalendar = () => {
     setShowModal(true);
   };
 
-  const handleAddEvent = (info: any) => {
+  const handleAddEvent = (info) => {
     setSelectedDate(info.dateStr);
     setEventTitle("");
     setEventDescription("");
@@ -95,7 +95,7 @@ const AdminCalendar = () => {
       setSelectedEventId(null);
       const updatedEventsResponse = await fetch("/api/event");
       const updatedData = await updatedEventsResponse.json();
-      const mappedUpdatedEvents = updatedData.events.map((event: any) => ({
+      const mappedUpdatedEvents = updatedData.events.map((event) => ({
         ...event,
         id: event._id,
       }));
@@ -113,7 +113,7 @@ const AdminCalendar = () => {
     setSelectedEventId(null);
   };
 
-  const handleEventDrop = async (info: any) => {
+  const handleEventDrop = async (info) => {
     const updatedEventData = {
       title: info.event.title,
       date: info.event.start.toISOString(),
@@ -133,7 +133,7 @@ const AdminCalendar = () => {
     } else {
       const updatedEventsResponse = await fetch("/api/event");
       const updatedData = await updatedEventsResponse.json();
-      const mappedUpdatedEvents = updatedData.events.map((event: any) => ({
+      const mappedUpdatedEvents = updatedData.events.map((event) => ({
         ...event,
         id: event._id,
       }));

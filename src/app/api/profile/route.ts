@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import mongoose from "mongoose";
 import Profile from "@/models/Profile";
 
+// Ensure environment variables are set
 if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_S3_BUCKET_NAME) {
     throw new Error("AWS credentials or S3 bucket name are not configured properly");
 }
@@ -12,6 +13,7 @@ if (!process.env.MONGO_URI) {
     throw new Error("MongoDB URI is not configured properly");
 }
 
+// Configure S3 client
 const s3Client = new S3Client({
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
@@ -20,9 +22,13 @@ const s3Client = new S3Client({
     region: process.env.AWS_REGION!,
 });
 
-if (!mongoose.connection.readyState) {
-    mongoose.connect(process.env.MONGO_URI!);
+// Connect to MongoDB only if not already connected
+if (mongoose.connection.readyState === 0) {
+    mongoose.connect(process.env.MONGO_URI!).catch(err => console.error("MongoDB connection error:", err));
 }
+
+export const runtime = "nodejs";
+export const maxDuration = 10;
 
 export async function POST(request: NextRequest) {
     try {
@@ -36,13 +42,13 @@ export async function POST(request: NextRequest) {
         }
 
         // Ensure MongoDB connection is established
-        if (!mongoose.connection.readyState) {
+        if (mongoose.connection.readyState === 0) {
             await mongoose.connect(process.env.MONGO_URI!);
         }
 
         const profileId = uuidv4();
-
         let imageUrl = "/default.jpg";
+
         if (file) {
             const buffer = await file.arrayBuffer();
             const fileBuffer = Buffer.from(buffer);
@@ -67,7 +73,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(newProfile, { status: 201 });
 
-    } catch (error: any) {
+    } catch (error) {
         console.error("Error creating profile:", error);
         return NextResponse.json(
             { error: "Failed to create profile", details: error.message },
@@ -76,17 +82,11 @@ export async function POST(request: NextRequest) {
     }
 }
 
-export const config = {
-    api: {
-        bodyParser: false, // Disable body parser for form-data
-    },
-};
-
 export async function GET() {
     try {
         const profiles = await Profile.find();
         return NextResponse.json(profiles, { status: 200 });
-    } catch (error: any) {
+    } catch (error) {
         console.error("Error fetching profiles:", error);
         return NextResponse.json(
             { error: "Failed to fetch profiles", details: error.message },

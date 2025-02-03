@@ -14,7 +14,7 @@ export default function Navbar() {
 
 
   return (
-    <div className="fixed top-0 z-50 w-full bg-[rgba(255,255,255,0.36)] backdrop-blur-md rounded-b-[5vw] shadow-md transition-all duration-300">
+    <div className="z-[999] fixed top-0 z-50 w-full bg-[rgba(255,255,255,0.36)] backdrop-blur-md rounded-b-[5vw] shadow-md transition-all duration-300">
       <header className="container mx-auto flex items-center justify-between p-4 md:h-20">
         {/* Desktop Navigation */}
         <nav className="hidden md:flex justify-between w-full px-8">
@@ -49,7 +49,7 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <Button
           variant="ghost"
-          className="md:hidden"
+          className="md:hidden z-index-999"
           onClick={toggleMenu}
           aria-label="Toggle Menu"
         >

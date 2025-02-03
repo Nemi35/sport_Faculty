@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const SidebarItem = ({ item, pageName, setPageName }: any) => {
+const SidebarItem = ({ item, pageName, setPageName }) => {
   const handleClick = () => {
     const updatedPageName =
       pageName !== item.label.toLowerCase() ? item.label.toLowerCase() : "";
@@ -11,10 +11,10 @@ const SidebarItem = ({ item, pageName, setPageName }: any) => {
 
   const pathname = usePathname();
 
-  const isActive = (item: any) => {
+  const isActive = (item) => {
     if (item.route === pathname) return true;
     if (item.children) {
-      return item.children.some((child: any) => isActive(child));
+      return item.children.some((child) => isActive(child));
     }
     return false;
   };

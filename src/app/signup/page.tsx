@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [responsedata, setResponseData] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
@@ -30,7 +31,10 @@ export default function Register() {
         password,
       });
       setErrorMessage(""); 
-      
+      setResponseData(response.data.message);
+      if(responsedata){
+        console.log("response received Successfully"); 
+      }
       setTimeout(() => {
         router.push("/login");
       }, 1000);
@@ -53,7 +57,7 @@ export default function Register() {
           boxShadow: "0px 0px 10px 3px #9b9b9b",
         },
       });
-    } catch (error: any) {
+    } catch (error) {
       toast.error("registraction failed.", {
         position: "bottom-right",
         theme: "colored",
@@ -68,6 +72,7 @@ export default function Register() {
           boxShadow: "0px 0px 10px 3px #9b9b9b",
         },
       });
+      console.log(error);
     }
   };
 

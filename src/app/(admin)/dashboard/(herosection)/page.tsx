@@ -122,7 +122,9 @@ export default function DefaultLayout() {
                   key={index}
                   className="relative group w-80 h-60 border rounded p-2"
                 >
-                  <img
+                  <Image
+                    width={500}
+                    height={300}
                     src={url}
                     className="object-cover rounded-md shadow-sm w-full h-full"
                     alt="Uploaded Preview"

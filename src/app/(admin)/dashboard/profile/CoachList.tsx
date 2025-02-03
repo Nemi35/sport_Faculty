@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Pencil, Trash } from "lucide-react";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 interface Coach {
   id: string;
@@ -16,11 +17,7 @@ interface CoachListProps {
   onDelete: (id: string) => void;
 }
 
-export default function CoachList({
-  coaches,
-  onEdit,
-  onDelete,
-}: CoachListProps) {
+export default function CoachList({ coaches }: CoachListProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,7 +47,9 @@ export default function CoachList({
             {coaches.map((coach) => (
               <tr key={coach.id} className="border-b">
                 <td className="p-3">
-                  <img
+                  <Image
+                    width={100}
+                    height={100}
                     src={coach.image}
                     className="w-20 h-20 object-cover rounded-full"
                     alt={coach.name}
@@ -62,7 +61,7 @@ export default function CoachList({
                   <button
                     onClick={() => {
                       toast("Implementation is under process...", {
-                        className: 'toast-custom',
+                        className: "toast-custom",
                         position: "bottom-right",
                         autoClose: 2000,
                         hideProgressBar: true,
@@ -91,7 +90,7 @@ export default function CoachList({
                   <button
                     onClick={() => {
                       toast("Implementation is under process...", {
-                        className: 'toast-custom',
+                        className: "toast-custom",
                         position: "bottom-right",
                         autoClose: 2000,
                         hideProgressBar: true,
