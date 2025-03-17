@@ -111,7 +111,7 @@ export default function Login() {
           </div>
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
+            className="w-full py-3 bg-black  text-white rounded-lg hover:bg-[#212121] transition duration-200"
           >
             Log In
           </button>
@@ -119,7 +119,7 @@ export default function Login() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Don&apos;t have an account?{" "}
-            <a href="/signup" className="text-blue-600 hover:underline">
+            <a href="/signup" className="text-black hover:underline">
               Sign Up
             </a>
           </p>
