@@ -27,7 +27,6 @@ if (mongoose.connection.readyState === 0) {
     mongoose.connect(process.env.MONGO_URI!).catch(err => console.error("MongoDB connection error:", err));
 }
 
-export const runtime = "nodejs";
 export const maxDuration = 10;
 
 export async function POST(request: NextRequest) {
