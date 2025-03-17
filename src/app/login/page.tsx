@@ -16,6 +16,9 @@ export default function Login() {
     try {
       const response = await axios.post("/api/auth", { email, password });
       setToken(response.data.token); // Store token (e.g., in localStorage or cookies)
+      if (token) {
+        console.log("token received Successfully");
+      }
       setErrorMessage("");
       const username = email.split("@")[0];
       localStorage.setItem("username", username);
@@ -41,7 +44,7 @@ export default function Login() {
           boxShadow: "0px 0px 10px 3px #9b9b9b",
         },
       });
-    } catch (error: any) {
+    } catch (error) {
       toast.error("Login failed.", {
         position: "bottom-right",
         autoClose: 1000,
@@ -56,6 +59,7 @@ export default function Login() {
           boxShadow: "0px 0px 10px 3px #9b9b9b",
         },
       });
+      console.log(error.message);
     }
   };
 
@@ -114,7 +118,7 @@ export default function Login() {
         </form>
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <a href="/signup" className="text-blue-600 hover:underline">
               Sign Up
             </a>

@@ -23,6 +23,6 @@ export async function POST(req: Request) {
         response.cookies.set("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
         return response;
     } catch (error) {
-        return NextResponse.json({ error: "Server error." }, { status: 500 });
+        return NextResponse.json({ error: `Server error: ${error.message}` }, { status: 500 });
     }
 }

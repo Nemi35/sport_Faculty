@@ -5,17 +5,23 @@ export const dynamic = "force-dynamic"; // Replace `config` with this
 
 export const runtime = "nodejs";
 
-if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
-    throw new Error('AWS credentials are not properly configured');
+// Ensure environment variables are set
+if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_S3_BUCKET_NAME) {
+    throw new Error("AWS credentials or S3 bucket name are not configured properly");
 }
 
+// Initialize S3 client
 const s3Client = new S3Client({
     credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
     },
-    region: process.env.AWS_REGION
+    region: process.env.AWS_REGION!,
 });
+
+// ✅ Use Next.js 14 route segment config
+export const runtime = "nodejs"; // Ensure the API runs on Node.js runtime
+export const maxDuration = 10; // Set function execution timeout (optional)
 
 export async function POST(request: NextRequest) {
     try {
@@ -23,15 +29,11 @@ export async function POST(request: NextRequest) {
         const file = formData.get('file') as File;
 
         if (!file) {
-            return NextResponse.json(
-                { error: 'No file provided' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: 'No file provided' }, { status: 400 });
         }
 
         const buffer = await file.arrayBuffer();
         const fileBuffer = Buffer.from(buffer);
-
         const fileExtension = file.name.split('.').pop();
         const fileName = `${uuidv4()}.${fileExtension}`;
 
@@ -49,14 +51,14 @@ export async function POST(request: NextRequest) {
             RegionUsed: process.env.AWS_REGION || 'us-east-1'
         });
 
-        const uploadResult = await s3Client.send(new PutObjectCommand(uploadParams));
+        await s3Client.send(new PutObjectCommand(uploadParams));
 
         const fileUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION || 'us-east-1'}.amazonaws.com/uploads/${fileName}`;
 
         return NextResponse.json({ url: fileUrl }, { status: 200 });
 
-    } catch (error: any) {
-        console.error('Upload error full details:', {
+    } catch (error) {
+        console.error('Upload error:', {
             message: error.message,
             code: error.Code,
             requestId: error.$metadata?.requestId,
@@ -73,9 +75,3 @@ export async function POST(request: NextRequest) {
         );
     }
 }
-
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};

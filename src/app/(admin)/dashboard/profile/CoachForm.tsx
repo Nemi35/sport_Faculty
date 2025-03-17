@@ -3,17 +3,8 @@ import { useState } from "react";
 import Image from "next/image";
 import upload from "@/assets/upload.png";
 
-interface CoachFormProps {
-  initialData?: { id?: string; name: string; title: string; image: string };
-  onSubmit: (coach: {
-    id?: string;
-    name: string;
-    title: string;
-    image: string;
-  }) => void;
-}
 
-export default function CoachForm({ initialData, onSubmit }: CoachFormProps) {
+export default function CoachForm({ initialData, onSubmit }) {
   const [name, setName] = useState(initialData?.name || "");
   const [title, setTitle] = useState(initialData?.title || "");
   const [image, setImage] = useState<File | string>(initialData?.image || "");
@@ -37,9 +28,12 @@ export default function CoachForm({ initialData, onSubmit }: CoachFormProps) {
       <div className="flex flex-col items-center border-2 border-dashed border-gray-500 rounded-lg p-4 w-[35%] h-60 gap-3 relative hover:border-sky-400">
         {!preview ? "" : name}
         {preview ? (
-          <img
+          <Image
+            width={100}
+            height={100}
             src={preview}
             className="w-32 h-32 object-cover rounded-full mb-2"
+            alt={""}
           />
         ) : (
           <div className="flex flex-col items-center gap-2 pt-10">

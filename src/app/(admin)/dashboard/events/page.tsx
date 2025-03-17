@@ -32,7 +32,7 @@ const AdminCalendar: React.FC = () => {
     fetchEvents();
   }, []);
 
-  const handleEventClick = (info: any) => {
+  const handleEventClick = (info) => {
     setSelectedEventId(info.event.id);
     setEventTitle(info.event.title);
     setEventDescription(info.event.extendedProps.description || "");
@@ -40,7 +40,7 @@ const AdminCalendar: React.FC = () => {
     setShowModal(true);
   };
 
-  const handleAddEvent = (info: any) => {
+  const handleAddEvent = (info) => {
     setSelectedDate(info.dateStr);
     setEventTitle("");
     setEventDescription("");

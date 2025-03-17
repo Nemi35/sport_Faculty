@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ui/ClickOutside";
@@ -7,7 +6,6 @@ import userIcon from "@/assets/user.png";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const router = useRouter();
   const [username, setUsername] = useState<string | null>(null);
 
   const handleLogout = async () => {
