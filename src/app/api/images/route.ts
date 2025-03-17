@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import AWS from "aws-sdk";
 
+export const runtime = "nodejs";
+
 // Initialize AWS SDK once (Prevents Re-instantiating on every request)
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,

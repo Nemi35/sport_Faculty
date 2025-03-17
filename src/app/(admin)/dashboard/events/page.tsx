@@ -4,19 +4,26 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
-const AdminCalendar = () => {
-  const [events, setEvents] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedEventId, setSelectedEventId] = useState(null);
+type Event = {
+  id: string;
+  title: string;
+  date: string;
+  description?: string;
+};
+
+const AdminCalendar: React.FC = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [eventTitle, setEventTitle] = useState<string>("");
+  const [eventDescription, setEventDescription] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
       const response = await fetch("/api/event");
       const data = await response.json();
-      const mappedEvents = data.events.map((event: any) => ({
+      const mappedEvents: Event[] = data.events.map((event: any) => ({
         ...event,
         id: event._id,
       }));
@@ -57,7 +64,7 @@ const AdminCalendar = () => {
       return;
     }
 
-    const eventData = {
+    const eventData: Omit<Event, "id"> = {
       title: eventTitle,
       date: selectedDateObj.toISOString(),
       description: eventDescription,
@@ -69,21 +76,15 @@ const AdminCalendar = () => {
       const response = await fetch(`/api/event/${selectedEventId}`, {
         method: "PUT",
         body: JSON.stringify(eventData),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
-
       if (response.ok) success = true;
     } else {
       const response = await fetch("/api/event", {
         method: "POST",
         body: JSON.stringify(eventData),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
-
       if (response.ok) success = true;
     }
 
@@ -95,7 +96,7 @@ const AdminCalendar = () => {
       setSelectedEventId(null);
       const updatedEventsResponse = await fetch("/api/event");
       const updatedData = await updatedEventsResponse.json();
-      const mappedUpdatedEvents = updatedData.events.map((event: any) => ({
+      const mappedUpdatedEvents: Event[] = updatedData.events.map((event: any) => ({
         ...event,
         id: event._id,
       }));
@@ -105,44 +106,8 @@ const AdminCalendar = () => {
     }
   };
 
-  const handleModalClose = () => {
-    setShowModal(false);
-    setEventTitle("");
-    setEventDescription("");
-    setSelectedDate(null);
-    setSelectedEventId(null);
-  };
-
-  const handleEventDrop = async (info: any) => {
-    const updatedEventData = {
-      title: info.event.title,
-      date: info.event.start.toISOString(),
-      description: info.event.extendedProps.description || "",
-    };
-
-    const response = await fetch(`/api/event/${info.event.id}`, {
-      method: "PUT",
-      body: JSON.stringify(updatedEventData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      alert("Failed to update the event date");
-    } else {
-      const updatedEventsResponse = await fetch("/api/event");
-      const updatedData = await updatedEventsResponse.json();
-      const mappedUpdatedEvents = updatedData.events.map((event: any) => ({
-        ...event,
-        id: event._id,
-      }));
-      setEvents(mappedUpdatedEvents);
-    }
-  };
-
   return (
-    <div className="w-full h-screen box-border px-10">
+    <div className="w-full h-screen px-10">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -150,72 +115,41 @@ const AdminCalendar = () => {
         editable={true}
         dateClick={handleAddEvent}
         eventClick={handleEventClick}
-        eventDrop={handleEventDrop}
       />
 
       {showModal && (
-        <div className="modal ">
-          <div className="modal-content">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg w-80 flex flex-col items-center">
             <h2>{selectedEventId ? "Edit Event" : "Add Event"}</h2>
             <input
               type="text"
               placeholder="Event Title"
               value={eventTitle}
               onChange={(e) => setEventTitle(e.target.value)}
+              className="p-2 w-full border border-gray-300 rounded"
             />
             <textarea
               placeholder="Event Description"
               value={eventDescription}
               onChange={(e) => setEventDescription(e.target.value)}
               rows={4}
+              className="p-2 w-full border border-gray-300 rounded mt-2"
             />
             <input
               type="date"
               value={selectedDate?.split("T")[0]}
               onChange={handleDateChange}
+              className="p-2 w-full border border-gray-300 rounded mt-2"
             />
-            <button onClick={handleSaveEvent}>
+            <button onClick={handleSaveEvent} className="bg-blue-500 text-white p-2 rounded mt-2 w-full">
               {selectedEventId ? "Update Event" : "Save Event"}
             </button>
-            <button onClick={handleModalClose}>Close</button>
+            <button onClick={() => setShowModal(false)} className="bg-red-500 text-white p-2 rounded mt-2 w-full">
+              Close
+            </button>
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        .modal {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 999;
-        }
-        .modal-content {
-          background: white;
-          padding: 20px;
-          border-radius: 8px;
-          width: 300px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        input,
-        textarea {
-          padding: 8px;
-          margin: 10px 0;
-          width: 100%;
-        }
-        button {
-          padding: 8px 16px;
-          margin: 5px;
-          cursor: pointer;
-        }
-      `}</style>
     </div>
   );
 };

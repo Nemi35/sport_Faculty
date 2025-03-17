@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import mongoose from "mongoose";
 import Profile from "@/models/Profile";
 
+export const runtime = "nodejs";
+
 if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_S3_BUCKET_NAME) {
     throw new Error("AWS credentials or S3 bucket name are not configured properly");
 }
